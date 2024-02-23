@@ -1,3 +1,21 @@
+.bg-dark {
+    background-color: #343a40 !important;
+    /* --bs-text-opacity: 1;
+    color: rgba(var(--bs-white-rgb), var(--bs-text-opacity)) !important; */
+}
+
+a.bg-dark:hover,
+a.bg-dark:focus,
+button.bg-dark:hover,
+button.bg-dark:focus {
+    background-color: #1d2124 !important;
+}
+
+.logoimg {
+    width: 60px;
+    height: 60px;
+}
+
 .gimg {
     width: 40px;
     height: 40px;
@@ -9,3 +27,69 @@
     height: 60px;
     border-radius: 50%;
 }
+
+.alimg {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+}
+
+.headnavactive {
+    color: #ffffff !important;
+}
+
+.benefit-card {
+    transition: transform 0.3s ease-in-out;
+}
+
+.benefit-card:hover {
+    transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+    .col-lg-3 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+header.masthead {
+    padding-top: 10rem;
+    padding-bottom: calc(10rem - 4.5rem);
+    background: url(./assets/uploads/head_covergrad.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+    position: relative; /* Add position relative */
+  }
+  
+  header.masthead:before {
+    content: "";
+    background: #00000087;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+  
+  header.masthead > .container-fluid {
+    position: relative;
+    z-index: 2; /* Ensure content appears above the shadow */
+  }
+  
+  header.masthead > .container {
+    position: relative;
+    z-index: 2;
+  }
+  
+  @media (min-width: 992px) {
+    header.masthead {
+      height: 60vh;
+      min-height: 60vh;
+      padding-top: 4.5rem;
+      padding-bottom: 0;
+    }
+  }
+  

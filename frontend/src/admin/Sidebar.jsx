@@ -66,12 +66,12 @@ const Sidebar = () => {
                         <span className='ms-1'>Users</span>
                     </Link>
                 </li>
-                <li className="nav-item">
+                {/* <li className="nav-item">
                     <Link className={`nav-link ${isActive("/dashboard/settings")}`} to={"/dashboard/settings"}>
                         <IoSettingsSharp />
                         <span className='ms-1'>Settings</span>
                     </Link>
-                </li>
+                </li> */}
             </ul>
         </aside>
     )

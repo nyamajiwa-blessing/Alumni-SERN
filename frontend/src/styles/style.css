@@ -6156,6 +6156,7 @@ button.bg-danger:focus {
 
 .bg-light {
   background-color: #f8f9fa !important;
+
 }
 
 a.bg-light:hover, a.bg-light:focus,
@@ -6163,7 +6164,7 @@ button.bg-light:hover,
 button.bg-light:focus {
   background-color: #dae0e5 !important;
 }
-
+/* 
 .bg-dark {
   background-color: #343a40 !important;
 }
@@ -6172,7 +6173,7 @@ a.bg-dark:hover, a.bg-dark:focus,
 button.bg-dark:hover,
 button.bg-dark:focus {
   background-color: #1d2124 !important;
-}
+} */
 
 .bg-white {
   background-color: #fff !important;
@@ -10049,7 +10050,7 @@ hr.light {
   color: #6c757d;
   font-family: "Merriweather Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-weight: 700;
-  font-size: 0.9rem;
+  /* font-size: 0.9rem; */
   padding: 0.75rem 0;
 }
 #mainNav .navbar-nav .nav-item .nav-link:hover, #mainNav .navbar-nav .nav-item .nav-link:active {
@@ -10096,11 +10097,19 @@ hr.light {
     color: #007bff;
   }
 }
-
+/* 
+@media (max-width: 425px) {
+  
+  #mainNav > .container > .collapse > .navbar-nav .nav-item .nav-link {
+    color: red !important;
+    font-size: 3rem !important;
+  }
+} */
+/* 
 header.masthead {
   padding-top: 10rem;
   padding-bottom: calc(10rem - 4.5rem);
-  background: linear-gradient(to bottom, rgb(0 0 0 / 40%) 0%, rgb(245 242 240 / 45%) 100%), url(../assets/img/theater-bg.jpg);
+  background:  url(../assets/uploads/head_covergrad.jpg);
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: scroll;
@@ -10127,7 +10136,7 @@ header.masthead h1 {
   header.masthead h1 {
     font-size: 3.5rem;
   }
-}
+} */
 
 #portfolio .container-fluid, #portfolio .container-sm, #portfolio .container-md, #portfolio .container-lg, #portfolio .container-xl {
   max-width: 1920px;
@@ -10396,17 +10405,17 @@ div#menu-field img, div#menu-field .menu-item-details {
 section {
     /* background: #cccccc; */
 }
-header.masthead:before {
+/* header.masthead:before {
     content: "";
     background: #00000087;
     position: absolute;
-    width: calc(100%);
+    width: calc(100%); */
     /* height: calc(100%); */
-    top: 0;
+    /* top: 0;
     height: 60vh;
     z-index: 1;
 }
 header.masthead>div{
 position: relative;
 z-index: 2;
-}
+} */

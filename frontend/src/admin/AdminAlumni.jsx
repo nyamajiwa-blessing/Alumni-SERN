@@ -18,7 +18,6 @@ const AdminAlumni = () => {
 
   const navigate = useNavigate()
 
-  
 
   return (
     <>
@@ -41,7 +40,7 @@ const AdminAlumni = () => {
                   </Link></span> */}
                 </div>
                 <div className="card-body">
-                  <table className="table table-responsive-sm     table-condensed table-bordered table-hover">
+                  <table className="table table-responsive-sm table-condensed table-bordered table-hover">
 
                     {/* <colgroup>
 								<col width="5%"/>

@@ -55,10 +55,9 @@ const AdminGallery = () => {
     } catch (error) {
       console.error('Error:', error);
       toast.error('An error occurred');
-
-
     }
   };
+  
   const shortenAboutText = (text, maxLength) => {
     if (text.length > maxLength) {
       return text.substring(0, maxLength) + '...';

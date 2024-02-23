@@ -1,10 +1,16 @@
+// Import necessary CSS or SCSS files for custom styles
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FaCalendar } from "react-icons/fa";
+import { useAuth } from '../../AuthContext';
 
 const ViewEvent = () => {
+  const {isLoggedIn} = useAuth()
+
   const location = useLocation();
+  const navigate = useNavigate();
   const [eventData, setEventData] = useState(null);
   const [participated, setParticipated] = useState(false);
 
@@ -47,15 +53,28 @@ const ViewEvent = () => {
       .catch((err) => console.log(err));
   };
 
+  const formatDate = (timestamp) => {
+    const options = {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric'
+    };
+    return new Date(timestamp).toLocaleDateString('en-US', options);
+  };
+
+  console.log(isLoggedIn);
+
   return (
     <>
       <header className="masthead">
         <div className="container-fluid h-100">
           <div className="row h-100 align-items-center justify-content-center text-center">
             <div className="col-lg-4 align-self-end mb-4 pt-2 page-title">
-              <h4 className="text-center text-white">
-                {/* <b><?php echo ucwords($title) ?></b> */}
-              </h4>
+              <h2 className="text-center text-white">
+                <b>Event Details</b>
+              </h2>
               <hr className="divider my-4" />
             </div>
           </div>
@@ -69,20 +88,27 @@ const ViewEvent = () => {
                 <div className="row">
                   <div className="col-md-12">
                     <h4 className="text-center">{eventData.title}</h4>
-                    <p><FaCalendar /> {eventData.schedule}</p>
+                    <p><i><FaCalendar className='me-2 text-info ' />{formatDate(eventData.schedule)}</i></p>
                     <div dangerouslySetInnerHTML={{ __html: eventData.content }}></div>
                   </div>
                 </div>
                 <div className="row">
                   <div className="col-md-12">
                     <hr className="divider" />
-                    <div className="text-center">
-                      {participated ? (
-                        <span className="badge badge-primary">Committed to Participate</span>
-                      ) : (
-                        <button className="btn btn-primary" onClick={handleParticipation}>Participate</button>
-                      )}
-                    </div>
+                    {isLoggedIn ? (
+                      <div className="text-center">
+                        {participated ? (
+                          <span className="badge badge-primary">Committed to Participate</span>
+                        ) : (
+                          <button className="btn btn-primary" onClick={handleParticipation}>Participate</button>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="text-center">
+                        <span className="text-danger ">Please Login to participate</span>
+                        <br />
+                        <button className="btn btn-primary mt-2" onClick={() => navigate("/login")}>Login</button>
+                      </div>)}
                   </div>
                 </div>
               </div>

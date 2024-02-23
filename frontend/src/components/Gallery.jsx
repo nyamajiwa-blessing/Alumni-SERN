@@ -1,6 +1,18 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 
 const Gallery = () => {
+    const [gallery, setGallery] = useState([])
+
+    useEffect(() => {
+        axios.get("http://localhost:3000/auth/gallery")
+            .then((res) => {
+                console.log(res.data);
+                setGallery(res.data);
+            })
+            .catch((err) => console.log(err));
+    }, []);
+
     return (
         <>
             <header className="masthead">
@@ -22,28 +34,27 @@ const Gallery = () => {
                 <div className="row-items">
                     <div className="col-lg-12">
                         <div className="row">
-                            <div className="col-md-6">
-                                <div className="card gallery-list <?php echo $rtl ?>" data-id="<?php echo $row['id'] ?>">
-                                    <div className="gallery-img" card-img-top>
-
-                                        <img src="" alt="" />
-                                    </div>
-                                    <div className="card-body">
-                                        <div className="row align-items-center justify-content-center text-center h-100">
-                                            <div className="">
-                                                <div>
-                                                    <span className="truncate" style={{fontSize: "inherit"}}><small>about</small></span>
-                                                    <br />
+                            {/* <div className="col-md-6"> */}
+                            {gallery.map((g, index) => (
+                                <div className="col-md-6" key={index}>
+                                    <div className="card gallery-list"  >
+                                        <div className="gallery-im card-img-top">
+                                            <img src={`http://localhost:3000/${g.image_path}`} alt="img" />
+                                        </div>
+                                        <div className="card-body">
+                                            <div className="row align-items-center justify-content-center text-center h-100">
+                                                <div className="">
+                                                    <div>
+                                                        <span className="truncate" style={{ fontSize: "inherit" }}><small>{g.about}</small></span>
+                                                        <br />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-
-
                                     </div>
-                                </div>
-                                <br />
-                            </div>
-
+                                </div>))}
+                            <br />
+                            {/* </div> */}
                         </div>
                     </div>
                 </div>

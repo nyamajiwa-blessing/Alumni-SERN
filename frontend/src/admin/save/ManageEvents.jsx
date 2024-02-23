@@ -1,9 +1,10 @@
+
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { FaTimes } from "react-icons/fa";
 import { useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-
+import ReactQuill from 'react-quill';
 
 const ManageEvents = () => {
     const [eventData, setEventData] = useState({
@@ -15,13 +16,26 @@ const ManageEvents = () => {
     });
     const location = useLocation()
     useEffect(() => {
-        if (location.state && location.state.status == "edit") {
+        if (location.state && location.state.status === "edit") {
             const { id, title, schedule, content } = location.state.data;
             const formattedSchedule = schedule.replace('Z', '');
-            setEventData({ id, title, schedule: formattedSchedule, content });
-            ;
+            setEventData(prevState => ({
+                ...prevState,
+                id,
+                title,
+                schedule: formattedSchedule,
+                content
+            }));
         }
-    }, [location.state])
+    }, [location.state]);
+
+    const handleChange = (content) => {
+        setEventData(prevState => ({
+            ...prevState,
+            content
+        }));
+    };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -50,7 +64,7 @@ const ManageEvents = () => {
             toast.error('An error occurred');
         }
     }
-
+    console.log(eventData);
     return (
         <>
             <div className="container-fluid">
@@ -75,7 +89,12 @@ const ManageEvents = () => {
                                 <div className="form-group row">
                                     <div className="col-md-10">
                                         <label htmlFor="" className="control-label">Description</label>
-                                        <textarea name="content" id="content" className="form-control jqte" cols="30" rows="5" value={eventData.content} required onChange={(e) => setEventData({ ...eventData, content: e.target.value })}></textarea>
+                                        {/* <textarea name="content" id="content" className="form-control jqte" cols="30" rows="5" value={eventData.content} required onChange={(e) => setEventData({ ...eventData, content: e.target.value })}></textarea> */}
+                                        <ReactQuill
+                                            value={eventData.content}
+                                            onChange={handleChange}
+                                            required
+                                        />
                                     </div>
                                 </div>
                                 <div className=" row form-group">

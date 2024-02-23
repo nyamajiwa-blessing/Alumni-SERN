@@ -1,6 +1,51 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import { FaComments, FaEllipsisV, FaPlus, FaSearch } from 'react-icons/fa';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
+import ManageForum from '../admin/save/ManageForum';
+
+
 
 const Forum = () => {
+    const { isLoggedIn, isAdmin } = useAuth();
+    const [forum, setForum] = useState([]);
+    const [filteredForum, setFilteredForum] = useState([]);
+    const [searchQuery, setSearchQuery] = useState('');
+    const navigate = useNavigate();
+    const [handleAdd, setHandleAdd] = useState(false);
+
+    useEffect(() => {
+        axios.get("http://localhost:3000/auth/forums")
+            .then((res) => {
+                console.log(res.data)
+                setForum(res.data);
+            })
+            .catch((err) => console.log(err));
+    }, []);
+
+    const handleView = (e) => {
+        navigate("/forum/view", { state: { action: "view", data: e } });
+    }
+
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [handleAdd]);
+
+    const handleSearchInputChange = (e) => {
+        setSearchQuery(e.target.value);
+    }
+
+    useEffect(() => {
+        const filteredTopics = forum.filter(topic =>
+            topic.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            topic.description.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+        setFilteredForum(filteredTopics);
+    }, [searchQuery, forum]);
+
+
     return (
         <>
             <header className="masthead">
@@ -10,70 +55,86 @@ const Forum = () => {
                             <h3 className="text-white">Forum List</h3>
                             <hr className="divider my-4" />
                             <div className="row col-md-12 mb-2 justify-content-center">
-                                <button className="btn btn-primary btn-block col-sm-4" type="button" id="new_forum"><i class="fa fa-plus"></i> Create New Topic</button>
+                                {/* <button className="btn btn-primary btn-block col-sm-4" type="button" id="new_forum"><FaPlus/> Create New Topic</button>
+                                 */}
+                                {isLoggedIn ?
+                                    <> {handleAdd ? <></> : (<button onClick={() => setHandleAdd(true)} className="btn btn-primary btn-block col-sm-4" type="button" id="new_career"><FaPlus /> Create New Topic</button>)}
+                                    </> : <p className='text-white'>Please Login to create new topic.</p>}
                             </div>
                         </div>
 
                     </div>
                 </div>
             </header>
-            <div className="container mt-3 pt-2">
-                <div className="card mb-4">
-                    <div className="card-body">
-                        <div className="row">
-                            <div className="col-md-8">
-                                <div className="input-group mb-3">
-                                    <div className="input-group-prepend">
-                                        <span className="input-group-text" id="filter-field"><i class="fa fa-search"></i></span>
+            {handleAdd ?
+                (<>
+                    <div className="container mt-5  pt-2">
+                        <div className="col-lg-12">
+                            <div className="card mb-4">
+                                <div className="card-body">
+                                    <div className="row justify-content-center">
+                                        <ManageForum setHandleAdd={setHandleAdd} />
+                                    </div></div></div></div></div>
+                </>) : (<>
+                    <div className="container mt-3 pt-2">
+                        <div className="card mb-4">
+                            <div className="card-body">
+                                <div className="row">
+                                    <div className="col-md-8">
+                                        <div className="input-group mb-3">
+                                            <div className="input-group-prepend">
+                                                <span className="input-group-text" id="filter-field"><FaSearch /></span>
+                                            </div>
+                                            <input value={searchQuery} onChange={handleSearchInputChange} type="text" className="form-control" id="filter" placeholder="Filter" aria-label="Filter" aria-describedby="filter-field" />
+                                        </div>
                                     </div>
-                                    <input type="text" class="form-control" id="filter" placeHolder="Filter" aria-label="Filter" aria-describedby="filter-field" />
-                                </div>
-                            </div>
-                            <div className="col-md-4">
-                                <button class="btn btn-primary btn-block btn-sm" id="search">Search</button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                {/* $event = $conn->query("SELECT f.*,u.name from forum_topics f inner join users u on u.id = f.user_id order by f.id desc"); */}
-                <div className="card Forum-list" data-id="<?php echo $row['id'] ?>">
-                    <div className="card-body">
-                        <div className="row  align-items-center justify-content-center text-center h-100">
-                            <div className="">
-                                <div className="dropdown float-right mr-4">
-                                    <a class="text-dark" href="javascript:void(0)" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <span className="fa fa-ellipsis-v"></span>
-                                    </a>
-                                    <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item edit_forum" data-id="<?php echo $row['id'] ?>" href="javascript:void(0)">Edit</a>
-                                        <a class="dropdown-item delete_forum" data-id="<?php echo $row['id'] ?>" href="javascript:void(0)">Delete</a>
+                                    <div className="col-md-4">
+                                        <button className="btn btn-primary btn-block btn-sm" id="search">Search</button>
                                     </div>
                                 </div>
-                                <h3><b className="filter-txt">title</b></h3>
-                                <hr />
-                                <larger className="truncate filter-txt">desc</larger>
-                                <br />
-                                <hr class="divider" style={{ maxWidth: "calc(80%)" }} />
-                                <span className="badge badge-info float-left px-3 pt-1 pb-1">
-                                    <b><i>Topic Created by: <span className="filter-txt">name</span></i></b>
-                                </span>
-                                <span className="badge badge-secondary float-left px-3 pt-1 pb-1 ml-2">
-                                    <b><i className="fa fa-comments"></i> <i> Comments</i></b>
-                                </span>
-                                <button className="btn btn-primary float-right view_topic" data-id="<?php echo $row['id'] ?>">View Topic</button>
+
                             </div>
                         </div>
-
-
-                    </div>
-                </div>
-                <br />
-
-            </div>
-
-
-
+                        {/* $event = $conn->query("SELECT f.*,u.name from forum_topics f inner join users u on u.id = f.user_id order by f.id desc"); */}
+                        {filteredForum.map((e, index) => (
+                            <div className="card Forum-list" key={index}>
+                                <div className="card-body">
+                                    <div className="row  align-items-center justify-content-center text-center h-100">
+                                        <div className="">
+                                            {/* <div className="dropdown float-right mr-4">
+                                        <Link className="text-dark " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <FaEllipsisV />
+                                        </Link>
+                                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <li>
+                                                <Link className="dropdown-item edit_forum" >Edit</Link>
+                                            </li>
+                                            <li>
+                                                <hr className="dropdown-divider" />
+                                            </li>
+                                            <li>
+                                                <Link className="dropdown-item delete_forum">Delete</Link>
+                                            </li>
+                                        </ul>
+                                    </div> */}
+                                            <h3><b className="filter-txt">{e.title}</b></h3>
+                                            <hr />
+                                            <larger className="truncate filter-txt">{e.description}</larger>
+                                            <br />
+                                            <hr className="divider" style={{ maxWidth: "calc(80%)" }} />
+                                            <span className="badge badge-info float-left px-3 pt-1 pb-1">
+                                                <b><i>Topic Created by: <span className="filter-txt">{e.created_by}</span></i></b>
+                                            </span>
+                                            <span className="badge badge-secondary float-left px-3 pt-1 pb-1 ml-2">
+                                                <b><FaComments /> <i> {e.comments_count}</i></b>
+                                            </span>
+                                            <button className="btn btn-primary float-right view_topic" onClick={() => handleView(e)}>View Topic</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>))}
+                        <br />
+                    </div></>)}
         </>
     )
 }

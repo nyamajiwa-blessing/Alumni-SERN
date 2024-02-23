@@ -3,12 +3,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 
-const ManageForum = () => {
+const ManageForum = ({ setHandleAdd }) => {
 
   const location = useLocation();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    id:'',
+    id: '',
     title: '',
     description: '',
   });
@@ -24,7 +24,12 @@ const ManageForum = () => {
   //   setFormData({ ...formData, [e.target.name]: e.target.value });
   // };
   const handleBack = () => {
-    navigate("/dashboard/forum");
+    if (location.pathname.startsWith("/dashboard")) {
+      navigate("/dashboard/forum");
+    } else {
+      console.log("back btn")
+      setHandleAdd(false);
+    }
   };
 
 
@@ -47,7 +52,7 @@ const ManageForum = () => {
           .then((res) => toast.success(res.data.message))
       }
       setFormData({
-        id:'',
+        id: '',
         title: '',
         description: '',
       })

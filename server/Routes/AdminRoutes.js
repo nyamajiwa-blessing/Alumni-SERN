@@ -5,7 +5,29 @@ import multer from "multer";
 import path from "path";
 const router = express.Router();
 
-const storage = multer.diskStorage({
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'Public/Images');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, file.originalname);
+//     }
+// });
+// const upload = multer({ storage: storage });
+// Multer storage configuration for avatar
+const avatarStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'Public/Avatar');
+    },
+    filename: (req, file, cb) => {
+        // const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, file.fieldname + '_' + Date.now()+path.extname(file.originalname));
+    }
+});
+
+const avatarUpload = multer({ storage: avatarStorage });
+
+const galleryStorage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'Public/Images');
     },
@@ -13,7 +35,8 @@ const storage = multer.diskStorage({
         cb(null, file.originalname);
     }
 });
-const upload = multer({ storage: storage });
+const galleryUpload = multer({ storage: galleryStorage });
+
 
 // app.use(express.static('Public'));
 
@@ -23,28 +46,57 @@ router.post("/login", (req, res) => {
         if (err) return res.json({ loginStatus: false, Error: "Query Error" })
         if (result.length > 0) {
             const email = result[0].email;
-            const token = jwt.sign({ role: "Admin", email: email }, "jwt_secret_key", { expiresIn: "1d" });
+            const token = jwt.sign({ role: "admin", email: email }, "jwt_secret_key", { expiresIn: "1d" });
             res.cookie('token', token);
-
-            return res.json({ loginStatus: true, userType: result[0].type, userId: result[0].id, userName: result[0].name })
+            return res.json({ loginStatus: true, userType: result[0].type, userId: result[0].id, userName: result[0].name, alumnus_id: result[0].alumnus_id })
         } else {
             return res.json({ loginStatus: false, Error: "Wrong Email or Password" })
         }
     })
 })
 
-router.post("/signup", (req, res) => {
-    const sql = "INSERT INTO users(name,email,password,type) VALUES(?,?,?,?)";
-    const { name, email, password, userType } = req.body;
-    con.query(sql, [name, email, password, userType], (err, result) => {
-        if (err) {
-            console.error("Error executing SQL query:", err);
-            return res.status(500).json({ error: "Query Error", signupStatus: false });
-        }
-        return res.json({ message: 'SignUp Successfull', userId: result.insertId, signupStatus: true });
+// router.post("/signup", (req, res) => {
+//     const sql = "INSERT INTO users(name,email,password,type) VALUES(?,?,?,?)";
+//     const { name, email, password, userType } = req.body;
+//     con.query(sql, [name, email, password, userType], (err, result) => {
+//         if (err) {
+//             console.error("Error executing SQL query:", err);
+//             return res.status(500).json({ error: "Query Error", signupStatus: false });
+//         }
+//         return res.json({ message: 'SignUp Successfull', userId: result.insertId, signupStatus: true });
 
-    })
-})
+//     })
+// })
+
+router.post("/signup", (req, res) => {
+    const { name, email, password, userType } = req.body;
+
+    // insert into alumnus_bio table
+    const alumnusSql = "INSERT INTO alumnus_bio(name, email) VALUES(?,?)";
+    con.query(alumnusSql, [name, email], (alumnusErr, alumnusResult) => {
+        if (alumnusErr) {
+            console.error("Error executing SQL query for alumnus_bio:", alumnusErr);
+            return res.status(500).json({ error: "Alumnus Bio Query Error", signupStatus: false });
+        }
+
+        // insert into users table with alumnus_id
+        const alumnusId = alumnusResult.insertId;
+        const userSql = "INSERT INTO users(name, email, password, type, alumnus_id) VALUES(?,?,?,?,?)";
+        con.query(userSql, [name, email, password, userType, alumnusId], (userErr, userResult) => {
+            if (userErr) {
+                console.error("Error executing SQL query for users:", userErr);
+                return res.status(500).json({ error: "User Query Error", signupStatus: false });
+            }
+            return res.json({ message: 'Signup Successful', userId: userResult.insertId, signupStatus: true });
+        });
+    });
+});
+
+
+router.post("/logout", (req, res) => {
+    res.clearCookie('token');
+    res.status(200).json({ message: 'Logout Success' });
+});
 
 router.get("/counts", (req, res) => {
     const sql = `
@@ -100,10 +152,10 @@ router.get('/jobs', (req, res) => {
 
 
 router.post('/managejob', (req, res) => {
-    const { company, job_title, location, description } = req.body;
+    const { company, job_title, location, description, user_id } = req.body;
 
-    const sql = 'INSERT INTO careers (company, job_title, location, description) VALUES (?, ?, ?, ?)';
-    con.query(sql, [company, job_title, location, description], (err, result) => {
+    const sql = 'INSERT INTO careers (company, job_title, location, description,user_id) VALUES (?, ?, ?, ?,?)';
+    con.query(sql, [company, job_title, location, description, user_id], (err, result) => {
         if (err) {
             console.error('Error executing SQL query:', err);
             return res.status(500).json({ error: 'Database Error' });
@@ -424,7 +476,7 @@ router.delete('/user/:id', (req, res) => {
 });
 
 router.get("/gallery", (req, res) => {
-    const sql = "SELECT * FROM gallery";
+    const sql = "SELECT * FROM gallery order by id desc";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Query Error" })
         if (result.length > 0) {
@@ -463,7 +515,7 @@ router.delete('/gallery/:id', (req, res) => {
     });
 });
 
-router.post('/gallery', upload.single('image'), (req, res) => {
+router.post('/gallery', galleryUpload.single('image'), (req, res) => {
     try {
         const imagePath = req.file.path;
         const about = req.body.about;
@@ -484,7 +536,7 @@ router.post('/gallery', upload.single('image'), (req, res) => {
 });
 
 router.get("/alumni", (req, res) => {
-    const sql = "SELECT a.*,c.course,Concat(a.lastname,', ',a.firstname,' ',a.middlename) as name from alumnus_bio a inner join courses c on c.id = a.course_id order by Concat(a.lastname,', ',a.firstname,' ',a.middlename) asc";
+    const sql = "SELECT a.*,c.course,a.name as name from alumnus_bio a inner join courses c on c.id = a.course_id order by a.name asc";
     con.query(sql, (err, result) => {
         if (err) return res.json({ Error: "Query Error" })
         if (result.length > 0) {
@@ -511,6 +563,117 @@ router.put('/viewalumni', (req, res) => {
 router.get("/settings", (req, res) => {
     const sql = "SELECT * FROM system_settings";
     con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Query Error" })
+        if (result.length > 0) {
+            return res.json(result);
+        } else {
+            return res.json({ message: "No Data Available" })
+        }
+    });
+});
+
+
+
+//frontend
+
+router.get("/up_events", (req, res) => {
+    const sql = `SELECT * FROM events WHERE schedule >= CURDATE() ORDER BY schedule ASC`;
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Query Error" })
+        if (result.length > 0) {
+            return res.json(result);
+        } else {
+            return res.json({ message: "Still there are no upcoming Events" })
+        }
+    });
+});
+
+router.get("/alumni_list", (req, res) => {
+    const sql = "SELECT a.*,c.course,a.name as name from alumnus_bio a inner join courses c on c.id = a.course_id order by a.name asc";
+    con.query(sql, (err, result) => {
+        if (err) return res.json({ Error: "Query Error" })
+        if (result.length > 0) {
+            return res.json(result);
+        } else {
+            return res.json({ message: "No Alumni available" })
+        }
+    });
+});
+
+// router.put('/upaccount', avatarUpload.single('image'), (req, res) => {
+//     try {
+//         const avatar = req.file.path;
+//         const { name, connected_to, course_id, email, gender, batch, password, alumnus_id } = req.body;
+//         const sql = 'UPDATE alumnus_bio SET avatar = ?, name = ?, connected_to = ?, course_id = ?, email = ?, gender = ?, batch = ?, password = ? WHERE id = ?';
+//         const values = [avatar, name, connected_to, course_id, email, gender, batch, password, alumnus_id];
+//         con.query(sql, values, (err, result) => {
+//             if (err) {
+//                 console.error('Error inserting into gallery:', err);
+//                 res.status(500).json({ error: 'An error occurred' });
+//                 return;
+//             }
+//             res.json({ message: 'Image uploaded successfully'});
+//         });
+//     } catch (error) {
+//         console.error('Error uploading image:', error);
+//         res.status(500).json({ error: 'An error occurred' });
+//     }
+// });
+
+router.put('/upaccount', avatarUpload.single('image'), (req, res) => {
+    try {
+        const avatar = req.file.path;
+        const { name, connected_to, course_id, email, gender, batch, password, alumnus_id } = req.body;
+
+        // Update alumnus_bio table
+        const asql = 'UPDATE alumnus_bio SET avatar = ?, name = ?, connected_to = ?, course_id = ?, email = ?, gender = ?, batch = ? WHERE id = ?';
+        const avalues = [avatar, name, connected_to, course_id, email, gender, batch, alumnus_id];
+        con.query(asql, avalues, (err, result) => {
+            if (err) {
+                console.error('Error updating alumnus_bio:', err);
+                res.status(500).json({ error: 'An error occurred' });
+                return;
+            }
+
+            // Update users table
+            const usql = 'UPDATE users SET name = ?, email = ? WHERE id = ?';
+            const uvalues = [name, email, alumnus_id];
+            con.query(usql, uvalues, (err, result) => {
+                if (err) {
+                    console.error('Error updating users:', err);
+                    res.status(500).json({ error: 'An error occurred' });
+                    return;
+                }
+                
+                // Update password in users table
+                if (password) {
+                    const psql = 'UPDATE users SET password = ? WHERE id = ?';
+                    const pvalues = [password, alumnus_id];
+                    con.query(psql, pvalues, (err, result) => {
+                        if (err) {
+                            console.error('Error updating password:', err);
+                            res.status(500).json({ error: 'An error occurred' });
+                            return;
+                        }
+                        res.json({ message: 'Account updated successfully' });
+                    });
+                } else {
+                    res.json({ message: 'Account updated successfully' });
+                }
+            });
+        });
+    } catch (error) {
+        console.error('Error updating account:', error);
+        res.status(500).json({ error: 'An error occurred' });
+    }
+});
+
+
+
+router.get("/alumnusdetails", (req, res) => {
+    const id = req.query.id;
+    const sql = "SELECT * from alumnus_bio Where id=?";
+    con.query(sql, [id], (err, result) => {
         if (err) return res.json({ Error: "Query Error" })
         if (result.length > 0) {
             return res.json(result);

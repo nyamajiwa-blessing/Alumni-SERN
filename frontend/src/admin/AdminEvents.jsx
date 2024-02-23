@@ -3,7 +3,6 @@ import { FaPlus } from 'react-icons/fa';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-// import ManageEvents from './save/ManageEvents';
 
 const AdminEvents = () => {
   const [events, setEvents] = useState([]);
@@ -31,12 +30,13 @@ const AdminEvents = () => {
     return new Date(timestamp).toLocaleDateString('en-US', options);
   };
 
-  // Function to truncate the content
+  // Function to truncate the content and remove HTML tags
   const CutContent = (content, maxLength) => {
-    if (content.length > maxLength) {
-      return content.substring(0, maxLength) + '...';
+    const strippedContent = content.replace(/<[^>]+>/g, ''); // Remove HTML tags
+    if (strippedContent.length > maxLength) {
+      return strippedContent.substring(0, maxLength) + '...';
     }
-    return content;
+    return strippedContent;
   };
 
   const handleView = (event) => {
@@ -80,7 +80,6 @@ const AdminEvents = () => {
                         <td>{formatDate(event.schedule)}</td>
                         <td>{event.title}</td>
                         <td>{CutContent(event.content, 50)}</td>
-                        {/* <td>{CutContent(event.content, 50)}</td> */}
                         <td>{event.commits_count}</td>
                         <td className="text-center justify-content-center border-0 d-flex gap-1">
                           <button onClick={() => handleView(event)} className="btn btn-sm btn-outline-primary edit_career" >View</button>

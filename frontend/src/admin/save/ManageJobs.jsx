@@ -3,22 +3,28 @@ import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
+import ReactQuill from 'react-quill';
+// import { useAuth } from '../../AuthContext';
 
 
-const ManageJobs = () => {
+const ManageJobs = ({ setHandleAdd }) => {
+  // const { isLoggedIn, isAdmin } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
+  const uid = localStorage.getItem("user_id");
+
   const [formData, setFormData] = useState({
     id: '',
     company: '',
     job_title: '',
     location: '',
-    description: ''
+    description: '',
+    user_id: uid,
   });
 
   useEffect(() => {
     if (location.state && location.state.action === 'edit') {
-      setFormData(location.state.data);
+      setFormData(location.state.data,);
       console.log(location);
     }
   }, [location.state]);
@@ -27,7 +33,12 @@ const ManageJobs = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleBack = () => {
-    navigate("/dashboard/jobs");
+    if (location.pathname.startsWith("/dashboard")) {
+      navigate("/dashboard/jobs");
+    } else {
+      console.log("back btn")
+      setHandleAdd(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -48,6 +59,7 @@ const ManageJobs = () => {
         job_title: "",
         location: "",
         description: "",
+        user_id: ""
       })
       // Optionally, you can redirect the user to another page after successful submission
     } catch (error) {
@@ -55,6 +67,14 @@ const ManageJobs = () => {
       toast.error('An error occurred');
     }
   };
+
+  const handleChangeDesc = (description) => {
+    setFormData(prevState => ({
+      ...prevState,
+      description
+    }));
+  };
+
 
   return (
     <>
@@ -83,13 +103,17 @@ const ManageJobs = () => {
           <div className="row form-group">
             <div className="col-md-8">
               <label className="control-label">Description</label>
-              <textarea name="description" className="text-jqte form-control" value={formData.description} onChange={handleChange}></textarea>
+              {/* <textarea name="description" className="text-jqte form-control" value={formData.description} onChange={handleChange}></textarea> */}
+              <ReactQuill
+                value={formData.description}
+                onChange={handleChangeDesc}
+                required
+              />
             </div>
           </div>
           <div className='col-md-8'>
             <button type="submit" className="btn btn-primary">Submit</button>
             <button type="button" className="btn btn-outline-danger float-end  " onClick={handleBack}>Back</button>
-
           </div>
         </form>
       </div>

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FaComments } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
+import { useAuth } from '../../AuthContext';
 
 const ViewTopic = () => {
+    const { isLoggedIn, isAdmin } = useAuth();
+    const navigate = useNavigate();
     const location = useLocation();
     const [topic, setTopic] = useState(null);
     const [comments, setComments] = useState([]);
@@ -58,7 +61,7 @@ const ViewTopic = () => {
     const handleDelete = async (id) => {
         try {
             const response = await axios.delete(`http://localhost:3000/auth/view_forum/${id}`);
-            toast.dark("❌ Comment Deleted Successfully");
+            toast.success("Comment Deleted Successfully");
             setComments(comments.filter(c => c.id !== id));
         } catch (error) {
             console.error('Error:', error);
@@ -136,35 +139,39 @@ const ViewTopic = () => {
                                         />
                                     ) : (
                                         <>
-                                            <div className="dropdown float-right">
-                                                <button
-                                                    className="btn btn-info  dropdown-toggle"
-                                                    type="button"
-                                                    data-bs-toggle="dropdown"
-                                                    aria-expanded="false"
-                                                ></button>
-                                                <ul className="dropdown-menu">
-                                                    <li>
-                                                        <a
-                                                            className="dropdown-item link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                                                            onClick={() => handleEdit(c.id, c.comment)}
-                                                        >
-                                                            Edit
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <hr className="dropdown-divider" />
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            onClick={() => handleDelete(c.id)}
-                                                            className="dropdown-item link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-                                                        >
-                                                            Delete
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                            {isLoggedIn && (c.user_id == localStorage.getItem("user_id") || isAdmin) && (
+                                                <div className="dropdown float-right">
+                                                    <button
+                                                        className="btn btn-info  dropdown-toggle"
+                                                        type="button"
+                                                        data-bs-toggle="dropdown"
+                                                        aria-expanded="false"
+                                                    ></button>
+                                                    <ul className="dropdown-menu">
+                                                        <li>
+                                                            <a
+                                                                className="dropdown-item link-primary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                                                                onClick={() => handleEdit(c.id, c.comment)}
+                                                            >
+                                                                Edit
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <hr className="dropdown-divider" />
+                                                        </li>
+                                                        <li>
+                                                            <a
+                                                                onClick={() => handleDelete(c.id)}
+                                                                className="dropdown-item link-danger link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
+                                                            >
+                                                                Delete
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            )}
+
+
                                             <p className="mb-0">
                                                 <large>
                                                     <b>{c.name}</b>
@@ -191,7 +198,7 @@ const ViewTopic = () => {
                             ))}
                         </div>
                         {comments.length == 0 ? "" : (<hr className="divider" style={{ maxWidth: '100%' }} />)}
-                        <div className="col-lg-12">
+                        {isLoggedIn ? <div className="col-lg-12">
                             {editingCommentId ? "" : (<form onSubmit={handleCommentSubmit}>
                                 <div className="form-group">
                                     <textarea
@@ -205,7 +212,12 @@ const ViewTopic = () => {
                                 </div>
                                 <button className="btn btn-primary">Save Comment</button>
                             </form>)}
-                        </div>
+                        </div> : (
+                            <div className="text-center">
+                                <span className="text-danger ">Please Login to add your Comment.</span>
+                                <br />
+                                <button className="btn btn-primary mt-2" onClick={() => navigate("/login")}>Login</button>
+                            </div>)}
                     </div>
                 </div>
             </div>

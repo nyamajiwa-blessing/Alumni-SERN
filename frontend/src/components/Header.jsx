@@ -1,40 +1,94 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { FaAngleDown, FaCog, FaPowerOff, FaBars } from 'react-icons/fa'; // Import FaBars from react-icons
+import { MdDashboard } from "react-icons/md";
+import logo from "../assets/uploads/logo.png";
+import { useAuth } from '../AuthContext';
+import { useTheme } from '../ThemeContext';
+import axios from 'axios';
+import { Fade as Hamburger } from 'hamburger-react'
 
 const Header = () => {
+
+    const location = useLocation();
+    const navigate = useNavigate();
+    const { theme, toggleTheme } = useTheme();
+    const { logout, isLoggedIn, isAdmin } = useAuth();
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [name, setName] = useState();
+    const navRef = useRef(null);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
+        console.log(isMenuOpen);
+    };
+
+    const isActive = (path) => {
+        return location.pathname === path ? 'headnavactive' : '';
+    };
+
+    useEffect(() => {
+        const user_name = localStorage.getItem("user_name");
+        setName(user_name);
+    }, [location.state]);
+
+    // useEffect(() => {
+    //     const handleClickOutside = (event) => {
+    //         if (navRef.current && !navRef.current.contains(event.target)) {
+    //             setIsMenuOpen(false);
+    //         }
+    //     };
+
+    //     document.addEventListener("mousedown", handleClickOutside);
+    //     return () => {
+    //         document.removeEventListener("mousedown", handleClickOutside);
+    //     };
+    // }, [navRef]);
+
+    const handleLogout = () => {
+        axios.post("http://localhost:3000/auth/logout")
+            .then((res) => {
+                navigate("/", { state: { action: "homelogout" } })
+                localStorage.clear();
+                logout();
+            })
+            .catch((err) => console.log(err));
     };
 
     return (
         <>
-            <nav className="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
+            <nav className={`navbar navbar-expand-lg navbar-${theme} fixed-top`} id="mainNav">
                 <div className="container">
-                    <a className="navbar-brand js-scroll-trigger" href="/">Alumni</a>
-                    <button className="navbar-toggler" type="button" onClick={toggleMenu}>
-                        <span className="navbar-toggler-icon"></span>
+                    <Link className="navbar-brand js-scroll-trigger" to="/"><img src={logo} className='logoimg' /></Link>
+                    <button className="navbar-toggler navbar-light" type="button"  >
+                        <Hamburger  hideOutline={false} rounded color="#FFFFFF" toggled={isMenuOpen} toggle={setIsMenuOpen}  />
                     </button>
-                    <div className={`collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`} id="navbarResponsive">
+                    <div ref={navRef} className={`collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`} id="navbarResponsive">
                         <ul className="navbar-nav ml-auto my-2 my-lg-0">
-                            <li className="nav-item"><a className="nav-link js-scroll-trigger" href="/">Home</a></li>
-                            <li className="nav-item"><a className="nav-link js-scroll-trigger" href="/">Alumni</a></li>
-                            <li className="nav-item"><a className="nav-link js-scroll-trigger" href="/">Gallery</a></li>
-                            <li className="nav-item"><a className="nav-link js-scroll-trigger" href="/">Jobs</a></li>
-                            <li className="nav-item"><a className="nav-link js-scroll-trigger" href="/">Forums</a></li>
-                            <li className="nav-item"><a className="nav-link js-scroll-trigger" href="/">About</a></li>
-                            <li className="nav-item"><a className="nav-link js-scroll-trigger" href="/" id="login">Login</a></li>
-                            <li className="nav-item">
-                                <div className="dropdown mr-4">
-                                    <a href="/" className="nav-link js-scroll-trigger" id="account_settings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        name<i className="fa fa-angle-down"></i>
-                                    </a>
-                                    <div className="dropdown-menu" aria-labelledby="account_settings" style={{ left: "-2.5em" }}>
-                                        <a className="dropdown-item" href="/" id="manage_my_account"><i className="fa fa-cog"></i> Manage Account</a>
-                                        <a className="dropdown-item" href="/"><i className="fa fa-power-off"></i> Logout</a>
-                                    </div>
-                                </div>
-                            </li>
+                            {/* <li className="nav-item">
+                                <button onClick={toggleTheme} className="btn btn-sm btn-primary">
+                                    {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+                                </button>
+                            </li> */}
+                            <li className="nav-item"><Link onClick={toggleMenu} className={`nav-link js-scroll-trigger ${isActive("/")}`} to="/">Home</Link></li>
+                            <li className="nav-item"><Link onClick={toggleMenu} className={`nav-link js-scroll-trigger ${isActive("/alumni")}`} to="/alumni">Alumni</Link></li>
+                            <li className="nav-item"><Link onClick={toggleMenu} className={`nav-link js-scroll-trigger ${isActive("/gallery")}`} to="/gallery">Gallery</Link></li>
+                            <li className="nav-item"><Link onClick={toggleMenu} className={`nav-link js-scroll-trigger ${isActive("/jobs")}`} to="/jobs">Jobs</Link></li>
+                            <li className="nav-item"><Link onClick={toggleMenu} className={`nav-link js-scroll-trigger ${isActive("/forums")}`} to="/forums">Forums</Link></li>
+                            <li className="nav-item"><Link onClick={toggleMenu} className={`nav-link js-scroll-trigger ${isActive("/about")}`} to="/about">About</Link></li>
+                            {isLoggedIn ? <></> : (<li className="nav-item"><Link onClick={toggleMenu} className={`nav-link js-scroll-trigger ${isActive("/login")}`} to="/login" id="login">Login</Link></li>)}
+                            {isLoggedIn ? (<li className="nav-item dropdown">
+                                <Link className="nav-link " href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    {name}<FaAngleDown />
+                                </Link>
+                                <ul className="dropdown-menu ">
+                                    {isAdmin && <li><Link onClick={toggleMenu} className="dropdown-item " to="dashboard" ><MdDashboard /> Dashboard</Link></li>}
+                                    <li><Link onClick={toggleMenu} className="dropdown-item" to="account" ><FaCog /> Manage Account</Link></li>
+                                    <li><hr className="dropdown-divider" /></li>
+                                    <li><button className="dropdown-item" onClick={handleLogout}><FaPowerOff /> Logout</button></li>
+                                </ul>
+                            </li>) : <></>}
                         </ul>
                     </div>
                 </div>
