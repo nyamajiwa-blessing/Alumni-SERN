@@ -50,7 +50,7 @@ To set up the Alumni Management System locally, follow these steps:
 3. Navigate to the `server` folder and install dependencies: `cd ../server && npm install`
 4. Import the `alumni_db.sql` file into your SQL database.
 5. Configure the server to connect to your database.
-6. Start the frontend and backend servers: `npm start` in both `frontend` and `server` folders.
+6. Start the frontend and backend servers with these commands: `npm run dev` in `frontend` and `npm start` in `server` folder.
 
 ## 🤝 Contributing
 
