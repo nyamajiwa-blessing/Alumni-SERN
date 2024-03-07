@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import { IoMdLogOut } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
-import { FaSearch } from "react-icons/fa";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { FaSearch,FaGlobe } from "react-icons/fa";
 import { FaBars } from "react-icons/fa";
 import { Link, useNavigate } from 'react-router-dom';
 import logo from "../assets/uploads/logo.png";
 import { useAuth } from '../AuthContext';
 import axios from 'axios';
 
-const Header = () => {
+const Header = ({ toggleSidebar }) => {
     const { logout, isLoggedIn, isAdmin } = useAuth();
     const [name, setName] = useState();
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        console.log("love");
         axios.post("http://localhost:3000/auth/logout")
             .then((res) => {
                 navigate("/", { state: { action: "homelogout" } })
@@ -33,11 +33,11 @@ const Header = () => {
         <header id="header" className="header fixed-top d-flex align-items-center">
 
             <div className="d-flex align-items-center justify-content-between">
-                <Link to={"/"} className="logo d-flex align-items-center">
-                    <img src={logo} alt="" />
-                    <span className="d-none d-lg-block"> Dashboard</span>
-                </Link>
-                <FaBars className="bi bi-list toggle-sidebar-btn" />
+                <FaBars className="bi bi-list toggle-sidebar-btn d-lg-none" onClick={toggleSidebar} />
+                    <img className='dlimg' src={logo} alt="" />
+                <div className="logo d-flex align-items-center">
+                    <span className="d-none d-lg-block">Dashboard</span>
+                </div>
             </div>
 
             {/* <div className="search-bar">
@@ -48,16 +48,17 @@ const Header = () => {
             <nav className="header-nav ms-auto">
                 <ul className="d-flex align-items-center">
 
-                    <li className="nav-item d-block d-lg-none">
+                    {/* <li className="nav-item d-block d-lg-none">
                         <a className="nav-link nav-icon search-bar-toggle " href="#">
                             <FaSearch />
                         </a>
-                    </li>
+                    </li> */}
 
                     <li className="nav-item dropdown pe-3">
 
                         <a className="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
-                            {/* <img src="assets/img/profile-img.jpg" alt="Profile" className="rounded-circle" /> */}
+                            {/* <img src={logo} alt="Profile" className=" d-block d-md-none rounded-circle" style={{width: '30px', height: '30px'}} /> */}
+                            <BsThreeDotsVertical className='d-block d-md-none' />
                             <span className="d-none d-md-block dropdown-toggle ps-2">{name}</span>
                         </a>
 
@@ -70,10 +71,16 @@ const Header = () => {
                                 <hr className="dropdown-divider" />
                             </li>
 
-                            <li>
-                                <Link className="dropdown-item d-flex align-items-center" href="users-profile.html">
+                            {/* <li>
+                                <Link className="dropdown-item d-flex align-items-center" to="/dashboard/users">
                                     <CgProfile />
                                     <span className=' ms-1'>My Profile</span>
+                                </Link>
+                            </li> */}
+                            <li>
+                                <Link className="dropdown-item d-flex align-items-center" to="/">
+                                    <FaGlobe />
+                                    <span className=' ms-1'>WebPage</span>
                                 </Link>
                             </li>
                             <li>

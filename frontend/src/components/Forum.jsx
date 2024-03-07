@@ -95,13 +95,14 @@ const Forum = () => {
 
                             </div>
                         </div>
-                        {/* $event = $conn->query("SELECT f.*,u.name from forum_topics f inner join users u on u.id = f.user_id order by f.id desc"); */}
-                        {filteredForum.map((e, index) => (
-                            <div className="card Forum-list" key={index}>
-                                <div className="card-body">
-                                    <div className="row  align-items-center justify-content-center text-center h-100">
-                                        <div className="">
-                                            {/* <div className="dropdown float-right mr-4">
+                        {filteredForum.length > 0 ? <>
+                            {/* $event = $conn->query("SELECT f.*,u.name from forum_topics f inner join users u on u.id = f.user_id order by f.id desc"); */}
+                            {filteredForum.map((e, index) => (
+                                <div className="card Forum-list" key={index}>
+                                    <div className="card-body">
+                                        <div className="row  align-items-center justify-content-center text-center h-100">
+                                            <div className="">
+                                                {/* <div className="dropdown float-right mr-4">
                                         <Link className="text-dark " data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <FaEllipsisV />
                                         </Link>
@@ -117,22 +118,35 @@ const Forum = () => {
                                             </li>
                                         </ul>
                                     </div> */}
-                                            <h3><b className="filter-txt">{e.title}</b></h3>
-                                            <hr />
-                                            <larger className="truncate filter-txt">{e.description}</larger>
-                                            <br />
-                                            <hr className="divider" style={{ maxWidth: "calc(80%)" }} />
-                                            <span className="badge badge-info float-left px-3 pt-1 pb-1">
-                                                <b><i>Topic Created by: <span className="filter-txt">{e.created_by}</span></i></b>
-                                            </span>
-                                            <span className="badge badge-secondary float-left px-3 pt-1 pb-1 ml-2">
-                                                <b><FaComments /> <i> {e.comments_count}</i></b>
-                                            </span>
-                                            <button className="btn btn-primary float-right view_topic" onClick={() => handleView(e)}>View Topic</button>
+                                                <h3><b className="filter-txt">{e.title}</b></h3>
+                                                <hr />
+                                                <p className="truncate filter-txt" dangerouslySetInnerHTML={{ __html: e.description }} ></p>
+                                                {/* <div className="truncate filter-txt">{e.description}</div> */}
+
+                                                <br />
+                                                <hr className="divider" style={{ maxWidth: "calc(80%)" }} />
+                                                <div className='forumbtn d-flex justify-content-between align-items-center'>
+                                                    <div className=''>
+                                                        <span className="badge badge-info me-1   px-3 ">
+                                                            <b><i>Created by: <span className="filter-txt">{e.created_by}</span></i></b>
+                                                        </span>
+                                                        <span className="badge badge-secondary px-3">
+                                                            <b><FaComments /> <i> {e.comments_count}</i></b>
+                                                        </span>
+                                                    </div>
+
+                                                    <button className="btn btn-primary btn-sm " onClick={() => handleView(e)}>View Topic</button>
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>))}
+                                </div>))}</> : <>
+                            <div className="d-flex flex-column justify-content-center align-items-center">
+                                <p >{searchQuery}</p>
+                                <h4 className='text-info-emphasis'>No Topic Available</h4>
+                            </div>
+                        </>}
                         <br />
                     </div></>)}
         </>

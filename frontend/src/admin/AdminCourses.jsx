@@ -145,7 +145,7 @@ const AdminCourses = () => {
                   </thead>
                   <tbody>
                     {courses.map((c, index) => (
-                      <tr key={index}>
+                      <tr  key={index}>
                         <td className="text-center">{index + 1}</td>
                         <td>{c.course}</td>
                         <td className="text-center">

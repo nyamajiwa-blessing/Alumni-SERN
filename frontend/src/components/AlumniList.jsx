@@ -1,6 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
+import defaultavatar from "../assets/uploads/defaultavatar.jpg"
+
 
 const AlumniList = () => {
     const [alumniList, setAlumniList] = useState([]);
@@ -20,16 +22,18 @@ const AlumniList = () => {
         setSearchQuery(e.target.value);
     }
 
-    useEffect(() => {
-        const filteredlist = alumniList.filter(list =>
-            list.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            list.course.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            list.batch.toString().includes(searchQuery)
-            // list.batch.toString() === searchQuery
-        );
-        setFilteredAlumnni(filteredlist);
-    }, [searchQuery, alumniList]);
 
+    useEffect(() => {
+        if (alumniList.length > 0) {
+            const filteredlist = alumniList.filter(list =>
+                list.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                list.course.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                list.batch.toString().includes(searchQuery)
+                // list.batch.toString() === searchQuery
+            );
+            setFilteredAlumnni(filteredlist);
+        }
+    }, [searchQuery, alumniList]);
 
     return (
         <>
@@ -43,7 +47,7 @@ const AlumniList = () => {
                     </div>
                 </div>
             </header>
-            <div className="container mt-4">
+            {alumniList.length && <div className="container mt-4">
                 <div className="card mb-4">
                     <div className="card-body">
                         <div className="row">
@@ -59,55 +63,71 @@ const AlumniList = () => {
                                         type="text"
                                         className="form-control"
                                         id="filter"
-                                        placeholder="Filter name, course, etc."
+                                        placeholder="Filter name, course, batch"
                                         aria-label="Filter"
                                         aria-describedby="filter-field"
                                     />
                                 </div>
                             </div>
                             <div className="col-md-4">
-                                <button className="btn btn-primary btn-block btn-sm" id="search">
+                                <button className="btn btn-primary btn-block" id="search">
                                     Search
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>}
             <div className="container-fluid mt-3 pt-2">
-                <div className="row">
-                    {filteredAlumni.map((a, index) => (
-                        <div className="col-md-4 mb-4" key={index}>
-                            <div className="card">
-                                <center> <img
-                                    src={`http://localhost:3000/${a.avatar}`}
-                                    className="card-img-top img-fluid alimg "
-                                    alt="avatar"
-                                /></center>
-                                <div className="card-body">
-                                    <h5 className="card-title text-center ">{a.name} <small>
-                                        <i className={`badge badge-primary ${a.status === 1 ? '' : 'd-none'}`}>
-                                            Verified
-                                        </i>
-                                    </small></h5>
+                {filteredAlumni.length > 0 ? <>
+                    <div className="row">
+                        {filteredAlumni.map((a, index) => (
+                            <div className="col-md-4 mb-4" key={index}>
+                                <div className="card">
+                                    <center>
+                                        {a.avatar ?
+                                            <img
+                                                src={`http://localhost:3000/${a.avatar}`}
+                                                className="card-img-top img-fluid alimg "
+                                                alt="avatar"
+                                            /> : <>
+                                                <img
+                                                    src={defaultavatar}
+                                                    className="card-img-top img-fluid alimg "
+                                                    alt="avatar"
+                                                />
+                                            </>}
+                                    </center>
+                                    <div className="card-body">
+                                        <h5 className="card-title text-center pad-zero ">{a.name} <small>
+                                            <i className={`badge badge-primary ${a.status === 1 ? '' : 'd-none'}`}>
+                                                Verified
+                                            </i>
+                                        </small></h5>
 
-                                    <p className="card-text">
-                                        <strong>Email:</strong> {a.email}
-                                    </p>
-                                    <p className="card-text">
-                                        <strong>Course:</strong> {a.course}
-                                    </p>
-                                    <p className="card-text">
-                                        <strong>Batch:</strong> {a.batch}
-                                    </p>
-                                    <p className="card-text">
-                                        <strong>Currently working in/as:</strong> {a.connected_to}
-                                    </p>
+                                        <p className="card-text">
+                                            <strong>Email:</strong> {a.email}
+                                        </p>
+                                        {a.course && <p className="card-text">
+                                            <strong>Course:</strong> {a.course}
+                                        </p>}
+                                        {a.batch != "0000" && <p className="card-text">
+                                            <strong>Batch:</strong> {a.batch}
+                                        </p>}
+                                        {a.connected_to && <p className="card-text">
+                                            <strong>Currently working in/as:</strong> {a.connected_to}
+                                        </p>}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                </> : <>
+                    <div className="d-flex flex-column justify-content-center align-items-center">
+                        <p >{searchQuery}</p>
+                        <h4 className='text-info-emphasis'>No Data Available</h4>
+                    </div>
+                </>}
             </div>
         </>
     );

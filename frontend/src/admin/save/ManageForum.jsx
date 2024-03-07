@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import ReactQuill from 'react-quill';
 
 const ManageForum = ({ setHandleAdd }) => {
 
@@ -62,6 +63,13 @@ const ManageForum = ({ setHandleAdd }) => {
     }
   };
 
+  const handleChange = (description) => {
+    setFormData(prevState => ({
+      ...prevState,
+      description
+    }));
+  };
+
   return (
     <div className="container-fluid">
       <ToastContainer position="top-center" />
@@ -76,7 +84,12 @@ const ManageForum = ({ setHandleAdd }) => {
         <div className="row form-group">
           <div className="col-md-12">
             <label className="control-label">Description</label>
-            <textarea name="description" className="text-jqte form-control" value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })}></textarea>
+            {/* <textarea name="description" className="text-jqte form-control" value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })}></textarea> */}
+            <ReactQuill
+              value={formData.description}
+              onChange={handleChange}
+              required
+            />
           </div>
         </div>
         <button type='submit' className="btn btn-primary mr-2">Save</button>

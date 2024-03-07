@@ -16,7 +16,7 @@ const ViewJobs = ({ job, closeModal }) => {
                             <p><strong>Job Title:</strong> {job.job_title}</p>
                             <p><strong>Location:</strong> <FaMapMarker /> {job.location}</p>
                             <hr className="divider" />
-                            <div className="description" style={{ maxHeight: '200px', overflowY: 'auto' }}>
+                            <div className="description" style={{ maxHeight: '50vh', overflowY: 'auto' }}>
                                 <p dangerouslySetInnerHTML={{ __html: job.description }}></p>
                             </div>
                         </div>

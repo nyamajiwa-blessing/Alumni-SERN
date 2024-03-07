@@ -24,6 +24,7 @@ app.use(express.json())
 app.use("/auth", adminRouter);
 // app.use(express.static('Public'));
 app.use('/Public', express.static('Public'));
+
 app.listen(3000, () => {
     console.log("server is running")
 })

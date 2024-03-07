@@ -1,4 +1,3 @@
-// Import necessary CSS or SCSS files for custom styles
 
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -7,7 +6,7 @@ import { FaCalendar } from "react-icons/fa";
 import { useAuth } from '../../AuthContext';
 
 const ViewEvent = () => {
-  const {isLoggedIn} = useAuth()
+  const { isLoggedIn } = useAuth()
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -81,12 +80,12 @@ const ViewEvent = () => {
         </div>
       </header>
       <div className="container">
-        <div className="col-lg-12">
+        <div className="col-lg-12 card-pad">
           {eventData && (
             <div className="card mt-4 mb-4">
               <div className="card-body">
                 <div className="row">
-                  <div className="col-md-12">
+                  <div className="col-md-12 ">
                     <h4 className="text-center">{eventData.title}</h4>
                     <p><i><FaCalendar className='me-2 text-info ' />{formatDate(eventData.schedule)}</i></p>
                     <div dangerouslySetInnerHTML={{ __html: eventData.content }}></div>

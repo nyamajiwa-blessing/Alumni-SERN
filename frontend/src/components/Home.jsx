@@ -12,7 +12,7 @@ import imgcs from "../assets/uploads/imgcs.jpg";
 
 const Home = () => {
     const { theme } = useTheme();
-    const { isLoggedIn } = useAuth();;
+    const { isLoggedIn, isAdmin } = useAuth();;
     const [events, setEvents] = useState([]);
     const location = useLocation();
     const navigate = useNavigate();
@@ -60,20 +60,20 @@ const Home = () => {
 
     return (
         <div>
-            <ToastContainer position="top-center" />
+            <ToastContainer hideProgressBar="true" position="top-center" pauseOnHover="false" pauseOnFocusLoss="false" />
             <header className="masthead" style={{ backgroundImage: `url(${imgcs})`, backgroundPosition: "center", backgroundRepeat: "no-repeat", backgroundSize: "cover", height: "100vh" }}>
-    <div className="container h-100">
-        <div className="row h-100 align-items-center justify-content-center">
-            <div className="col-lg-8  text-center">
-                <h1 className="text-white font-weight-bold display-3 mb-4">Welcome to BZU ALUMNI</h1>
-                <p className="text-white-75 font-weight-light lead mb-5">Connecting CS alumni across the globe</p>
-                <Link className="btn btn-primary btn-xl" to="about">Find Out More</Link>
-                {!isLoggedIn && <Link className="btn btn-info  ms-2   btn-xl" to="login">Login</Link>}
-            </div>
-        </div>
-    </div>
-</header>
-
+                <div className="container h-100">
+                    <div className="row h-100 align-items-center justify-content-center">
+                        <div className="col-lg-8  text-center">
+                            <h1 className="text-white font-weight-bold display-3 mb-4">Welcome to BZU ALUMNI</h1>
+                            <p className="text-white-75 font-weight-light lead mb-5">Connecting CS alumni across the globe</p>
+                            <Link className="btn btn-primary btn-xl" to="about">Find Out More</Link>
+                            {!isLoggedIn && <Link className="btn btn-info  ms-2   btn-xl" to="login">Login</Link>}
+                            {isLoggedIn && !isAdmin && <Link className="btn btn-info  ms-2   btn-xl" to="account">Profile</Link>}
+                        </div>
+                    </div>
+                </div>
+            </header>
 
 
             <section className={`page-section bg-${theme}`} id="alumni-benefits">
@@ -127,25 +127,30 @@ const Home = () => {
                 <div className="container">
                     <h2 className="section-heading text-center">Upcoming Events</h2>
                     <hr className="divider my-4" />
-                    {events.map((e, index) => (
-                        <div className="card event-list" key={index} >
-                            <div className='banner'>
-                                <img src="" alt="" />
-                            </div>
-                            <div className="card-body">
-                                <div className="row align-items-center justify-content-center text-center h-100">
-                                    <div className="">
-                                        <h3><b className="filter-txt">{e.title}</b></h3>
-                                        <div><small><p><b><FaCalendar className='me-1 ' />{formatDate(e.schedule)}</b></p></small></div>
-                                        <hr />
-                                        <p className="truncate filter-txt" dangerouslySetInnerHTML={{ __html: e.content }}></p>
-                                        <br />
-                                        <hr className="divider" style={{ maxWidth: "calc(80%)" }} />
-                                        <button className="btn btn-primary float-right read_more" onClick={() => navigate("events/view", { state: { action: "view", data: e } })}>Read More</button>
+                    {events.length > 0 ? <>
+                        {events.map((e, index) => (
+                            <div className="card event-list" key={index} >
+                                <div className='banner'>
+                                    <img src="" alt="" />
+                                </div>
+                                <div className="card-body">
+                                    <div className="row align-items-center justify-content-center text-center h-100">
+                                        <div className="">
+                                            <h3><b className="filter-txt">{e.title}</b></h3>
+                                            <div><small><p><b><FaCalendar className='me-1 ' />{formatDate(e.schedule)}</b></p></small></div>
+                                            <hr />
+                                            <p className="truncate filter-txt" dangerouslySetInnerHTML={{ __html: e.content }}></p>
+                                            <br />
+                                            <hr className="divider" style={{ maxWidth: "calc(80%)" }} />
+                                            <button className="btn btn-primary float-right read_more" onClick={() => navigate("events/view", { state: { action: "view", data: e } })}>Read More</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>))}
+                            </div>))}</> : <>
+                        <div className="d-flex flex-column justify-content-center align-items-center">
+                            <h4 className='text-info-emphasis'>No Upcoming Event Available</h4>
+                        </div>
+                    </>}
                 </div>
             </section>
             {/* <section className="page-section" id="about">

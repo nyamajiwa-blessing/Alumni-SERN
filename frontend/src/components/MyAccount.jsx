@@ -19,17 +19,17 @@ const MyAccount = () => {
         const alumnus_id = localStorage.getItem("alumnus_id");
         const fetchData = async () => {
             try {
-              const alumnusDetailsRes = await axios.get(`http://localhost:3000/auth/alumnusdetails?id=${alumnus_id}`);
-              const coursesRes = await axios.get("http://localhost:3000/auth/courses");
-      
-              setAcc(alumnusDetailsRes.data[0]);
-              setCourses(coursesRes.data);
+                const alumnusDetailsRes = await axios.get(`http://localhost:3000/auth/alumnusdetails?id=${alumnus_id}`);
+                const coursesRes = await axios.get("http://localhost:3000/auth/courses");
+
+                setAcc(alumnusDetailsRes.data[0]);
+                setCourses(coursesRes.data);
             } catch (error) {
-              console.error('Error fetching data:', error);
-              // Optionally display an error message to the user
+                console.error('Error fetching data:', error);
+                // Optionally display an error message to the user
             }
-          };
-          fetchData();
+        };
+        fetchData();
     }, []);
 
 
@@ -44,19 +44,24 @@ const MyAccount = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const alumnus_id = localStorage.getItem("alumnus_id");
+        const user_id = localStorage.getItem("user_id");
+        const pswrd = document.getElementById("pswrd").value
         try {
             const formData = new FormData();
-            if (file) {
+            // if (file) {
                 formData.append('image', file);
-            }
+            // }
             formData.append('name', acc.name);
             formData.append('connected_to', acc.connected_to);
             formData.append('course_id', acc.course_id);
             formData.append('email', acc.email);
             formData.append('gender', acc.gender);
-            formData.append('password', acc.password);
+            formData.append('password', pswrd);
             formData.append('batch', acc.batch);
             formData.append('alumnus_id', alumnus_id);
+            formData.append('user_id', user_id);
+            // console.log(pswrd);
+            // console.log(acc.password);
 
             const response = await axios.put("http://localhost:3000/auth/upaccount", formData, {
                 headers: {
@@ -81,7 +86,6 @@ const MyAccount = () => {
         }
     };
 
-
     return (
         <>
             <ToastContainer position="top-center" />
@@ -96,7 +100,7 @@ const MyAccount = () => {
                     </div>
                 </div>
             </header>
-            <section className="page-section bg-dark  text-white mb-0" id="about">
+            <section className="page-section  bg-dark  text-white mb-0" id="about">
                 <div className="container">
                     <div className="row justify-content-center">
                         <div className="col-lg-8">
@@ -124,7 +128,7 @@ const MyAccount = () => {
                                 <div className="form-group row">
                                     <label htmlFor="" className="col-sm-2 col-form-label">Course Graduated</label>
                                     <div className="col-sm-10">
-                                        <select onChange={handleChange} className="form-control select2" name="course_id" required defaultValue="" value={acc.course_id}>
+                                        <select onChange={handleChange} className="form-control select2" name="course_id" required value={acc.course_id}>
                                             <option disabled value="">Select course</option>
                                             {courses.map(c => (
                                                 <option key={c.id} value={c.id}>{c.course}</option>
@@ -153,7 +157,8 @@ const MyAccount = () => {
                                 <div className="form-group row">
                                     <label htmlFor="" className="col-sm-2 col-form-label">Password</label>
                                     <div className="col-sm-10">
-                                        <input onChange={handleChange} type="password" className="form-control" name="password" placeholder="Enter your password" />
+                                    {/* <input onChange={handleChange} type="email" className="form-control" name="email" placeholder="Enter your email" required value={acc.password} /> */}
+                                        <input onChange={handleChange} id='pswrd'  type="password" className="form-control" name="password" placeholder="Enter your password" />
                                         <small className="form-text text-info fst-italic ">Leave this blank if you dont want to change your password</small>
                                     </div>
                                 </div>

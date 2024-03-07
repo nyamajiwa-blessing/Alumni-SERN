@@ -40,12 +40,12 @@ const AdminEvents = () => {
   };
 
   const handleView = (event) => {
-    navigate("/events/view", {state:{action:"view",data:event}});
+    navigate("/events/view", { state: { action: "view", data: event } });
   }
 
   return (
     <div className="container-fluid">
-      <ToastContainer position="top-center"/>
+      <ToastContainer position="top-center" />
       <div className="col-lg-12">
         <div className="row mb-4 mt-4">
           <div className="col-md-12"></div>
@@ -74,20 +74,25 @@ const AdminEvents = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {events.map((event, index) => (
-                      <tr key={index}>
-                        <td className="text-center">{index + 1}</td>
-                        <td>{formatDate(event.schedule)}</td>
-                        <td>{event.title}</td>
-                        <td>{CutContent(event.content, 50)}</td>
-                        <td>{event.commits_count}</td>
-                        <td className="text-center justify-content-center border-0 d-flex gap-1">
-                          <button onClick={() => handleView(event)} className="btn btn-sm btn-outline-primary edit_career" >View</button>
-                          <Link to="/dashboard/events/manage" state={{ status: "edit", data: event }} className="btn btn-sm btn-outline-primary" type="button">Edit</Link>
-                          <button onClick={() => delEvent(event.id)} className="btn btn-sm btn-outline-danger" type="button">Delete</button>
-                        </td>
+                    {events.length > 0 ? <>
+                      {events.map((event, index) => (
+                        <tr key={index}>
+                          <td className="text-center">{index + 1}</td>
+                          <td>{formatDate(event.schedule)}</td>
+                          <td>{event.title}</td>
+                          <td>{CutContent(event.content, 50)}</td>
+                          <td>{event.commits_count}</td>
+                          <td className="text-center justify-content-center border-0 d-flex gap-1">
+                            <button onClick={() => handleView(event)} className="btn btn-sm btn-outline-primary edit_career" >View</button>
+                            <Link to="/dashboard/events/manage" state={{ status: "edit", data: event }} className="btn btn-sm btn-outline-primary" type="button">Edit</Link>
+                            <button onClick={() => delEvent(event.id)} className="btn btn-sm btn-outline-danger" type="button">Delete</button>
+                          </td>
+                        </tr>
+                      ))}</> : <>
+                      <tr>
+                        <td colSpan={6} className="text-center">No Event Available</td>
                       </tr>
-                    ))}
+                    </>}
                   </tbody>
                 </table>
               </div>

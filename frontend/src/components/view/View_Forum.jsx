@@ -114,10 +114,9 @@ const ViewTopic = () => {
             <div className="container mt-3 pt-2">
                 {topic && (
                     <div className="card mb-4">
-                        <div className="card-body">
-                            {topic.description}
-                            <hr className="divider" />
+                        <div dangerouslySetInnerHTML={{ __html: topic.description }} className="card-body">
                         </div>
+                            <hr className="divider" />
                     </div>
                 )}
 

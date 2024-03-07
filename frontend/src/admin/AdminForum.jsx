@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaPlus } from "react-icons/fa";
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
 
 
 
@@ -22,22 +23,32 @@ const AdminForum = () => {
   }, []);
 
   const delForum = (id) => {
-    axios.delete(`http://localhost:3000/auth/events/${id}`)
+    axios.delete(`http://localhost:3000/auth/forum/${id}`)
       .then((res) => {
         // console.log(res.data.message)
-        toast.warning(res.data.message);
+        toast.info(res.data.message);
         setForum(forum.filter((e) => e.id !== id))
       })
       .catch((err) => console.log(err))
   }
   const handleView = (e) => {
-    navigate("/forum/view", {state:{action:"view",data:e}});
+    navigate("/forum/view", { state: { action: "view", data: e } });
   }
 
+
+  const CutDesc = (content, maxLength) => {
+    const strippedContent = content.replace(/<[^>]+>/g, '');
+    if (strippedContent.length > maxLength) {
+      return strippedContent.substring(0, maxLength) + '...';
+    }
+    return strippedContent;
+  };
 
 
   return (
     <>
+      <ToastContainer position="top-center" />
+
       <div className="container-fluid">
         <div className="col-lg-12">
           <div className="row mb-4 mt-4">
@@ -52,7 +63,7 @@ const AdminForum = () => {
                 <div className="card-header">
                   <b>Forum List ({forum.length})</b>
                   <span className="">
-                    <button onClick={()=>navigate("/dashboard/forum/manage")} className="btn btn-primary btn-block btn-sm col-sm-2 float-right" type="button" >
+                    <button onClick={() => navigate("/dashboard/forum/manage")} className="btn btn-primary btn-block btn-sm col-sm-2 float-right" type="button" >
                       <FaPlus /> New</button>
                   </span>
                 </div>
@@ -78,31 +89,33 @@ const AdminForum = () => {
                       </tr>
                     </thead>
                     <tbody>
+                      {forum.length > 0 ? <>
+                        {forum.map((e, index) => (
+                          <tr key={index}>
+                            <td className="text-center">{index + 1}</td>
+                            <td className="">
+                              <p><b> {e.title}</b></p>
+                            </td>
+                            <td className="">
+                              <p className="truncate"><b>{CutDesc(e.description, 50)}</b></p>
 
-                      {/* $conn->query("SELECT f.*,u.name from forum_topics f inner join users u on u.id = f.user_id order by f.id desc") */}
-                      {/* $count_comments = $conn->query("SELECT * FROM forum_comments where topic_id = ".$row['id'])->num_rows; */}
-                      {forum.map((e, index) => (
-                        <tr key={index}>
-                          <td className="text-center">{index + 1}</td>
-                          <td className="">
-                            <p><b> {e.title}</b></p>
-                          </td>
-                          <td className="">
-                            <p className="truncate"><b>{e.description} </b></p>
-
-                          </td>
-                          <td className="text-center">
-                            <p><b>{e.created_by}</b></p>
-                          </td>
-                          <td className="text-center">
-                        <p><b>{e.comments_count}</b></p> 
-                          </td>
-                          <td className="text-center justify-content-center border-0 d-flex gap-1">
-                            <button onClick={() => handleView(e)} className="btn btn-sm btn-outline-primary edit_career" >View</button>
-                            <Link to="/dashboard/forum/manage" state={{ status: "edit", data: e }} className="btn btn-sm btn-outline-primary" type="button">Edit</Link>
-                            <button onClick={() => delForum(e.id)} className="btn btn-sm btn-outline-danger " type="button">Delete</button>
-                          </td>
-                        </tr>))}
+                            </td>
+                            <td className="text-center">
+                              <p><b>{e.created_by}</b></p>
+                            </td>
+                            <td className="text-center">
+                              <p><b>{e.comments_count}</b></p>
+                            </td>
+                            <td className="text-center justify-content-center border-0 d-flex gap-1">
+                              <button onClick={() => handleView(e)} className="btn btn-sm btn-outline-primary edit_career" >View</button>
+                              <Link to="/dashboard/forum/manage" state={{ status: "edit", data: e }} className="btn btn-sm btn-outline-primary" type="button">Edit</Link>
+                              <button onClick={() => delForum(e.id)} className="btn btn-sm btn-outline-danger " type="button">Delete</button>
+                            </td>
+                          </tr>))}</> : <>
+                        <tr>
+                          <td colSpan={6} className="text-center">No Forum Available</td>
+                        </tr>
+                      </>}
                     </tbody>
                   </table>
                 </div>

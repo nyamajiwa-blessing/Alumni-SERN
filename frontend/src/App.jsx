@@ -35,6 +35,8 @@ import ScrollToTop from "./components/ScrollToTop";
 import Manage_Career from "./components/manage/Manage_Career";
 import 'react-quill/dist/quill.snow.css';
 import { ThemeProvider } from "./ThemeContext";
+import PrivateRoute from "./components/PrivateRoute";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (
@@ -60,11 +62,15 @@ function AppRouter() {
   //   // This effect is now handled in AuthProvider
   // }, []);
 
+  // setTimeout(() => {
+    
+  // }, 1000);
 
   return (
     <>
       {!isDashboardRoute && <Header />}
       <Routes>
+        <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Home />} />
         <Route path="/alumni" element={<AlumniList />} />
         <Route path="/gallery" element={<Gallery />} />
@@ -74,7 +80,11 @@ function AppRouter() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         {isLoggedIn && isAdmin && (
-          <Route path="/dashboard" element={<Dashboard />} >
+          <Route path="/dashboard" element={
+            // <PrivateRoute>
+            <Dashboard />
+            //  {/* </PrivateRoute> */}
+          } >
             <Route path="" element={<AdminHome />} />
             <Route path="/dashboard/courses" element={<AdminCourses />} />
             <Route path="/dashboard/users" element={<AdminUsers />} />

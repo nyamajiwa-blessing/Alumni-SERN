@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
 
 const AdminUsers = () => {
   const [users, setUsers] = useState([]);
@@ -10,6 +11,7 @@ const AdminUsers = () => {
     axios.get("http://localhost:3000/auth/users")
       .then((res) => {
         setUsers(res.data);
+        console.log(users);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -17,16 +19,16 @@ const AdminUsers = () => {
   const delUser = (id) => {
     axios.delete(`http://localhost:3000/auth/user/${id}`)
       .then((res) => {
-        // console.log(res.data.message)
-        toast.warning(res.data.message);
+        toast.info(res.data.message);
         setUsers(users.filter((e) => e.id !== id))
       })
       .catch((err) => console.log(err))
   }
 
-
   return (
     <div className="container-fluid mt-4">
+      <ToastContainer position="top-center" />
+
       {/* <div className="row">
         <div className="col-lg-12">
           <button onClick={()=>navigate("/dashboard/users/manage")} className="btn btn-primary float-right btn-sm" id="new_user">
@@ -36,9 +38,9 @@ const AdminUsers = () => {
       </div> */}
 
       <div className="row mt-4">
-        <div className="col-lg-12">
-          <div className="card">
-            <div className="card-body">
+        <div className="col-lg-12 padzero">
+          <div className="card tablecard">
+            <div className="card-body cardwidth">
               <table className="table table-striped table-bordered">
                 <thead>
                   <tr>

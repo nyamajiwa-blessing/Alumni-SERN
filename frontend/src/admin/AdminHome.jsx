@@ -13,6 +13,7 @@ const AdminHome = () => {
     alumni: 0,
     forums: 0,
     jobs: 0,
+    upevents: 0,
     events: 0
   });
 
@@ -27,7 +28,7 @@ const AdminHome = () => {
 
   return (
     <>
-      <section className="section dashboard  ">
+      <section className="section dashboard cutommargin ">
         <div className="row  ">
           <div className="col-lg-10 m-2">
             <div className="row  ">
@@ -94,7 +95,7 @@ const AdminHome = () => {
                         <IoCalendar />
                       </div>
                       <div className="ps-3">
-                        <h6>{counts.events}</h6>
+                        <h6>{counts.upevents}</h6>
                       </div>
                     </div>
                   </div>

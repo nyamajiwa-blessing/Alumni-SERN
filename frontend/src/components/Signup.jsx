@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -9,14 +9,21 @@ const Signup = () => {
         email: "",
         password: "",
         userType: "",
+        course_id: "",
     });
+    const [courses, setCourses] = useState([]);
+
 
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        console.log(values);
         axios.post("http://localhost:3000/auth/signup", values)
             .then((res) => {
+                if (res.data.email) {
+                    return toast.warning("Email Already Exists");
+                }
                 if (res.data.signupStatus) {
                     toast.success(res.data.message);
                     setTimeout(() => {
@@ -28,6 +35,15 @@ const Signup = () => {
             })
             .catch(err => console.log(err))
     }
+
+    useEffect(() => {
+        axios.get("http://localhost:3000/auth/courses")
+            .then((res) => {
+                setCourses(res.data);
+            })
+            .catch(err => console.log(err))
+    }, [])
+
 
     return (
         <>
@@ -69,6 +85,17 @@ const Signup = () => {
                                                 <option value="admin">Admin</option>
                                             </select>
                                         </div>
+                                        {values.userType === "alumnus" &&
+                                            <div className="form-group">
+                                                <label htmlFor="course_id" className="control-label">Course</label>
+                                                <select onChange={(e) => setValues({ ...values, course_id: e.target.value })} className="form-control select2" name="course_id" required value={values.course_id}>
+                                                    <option disabled value="">Select course</option>
+                                                    {courses.map(c => (
+                                                        <option key={c.id} value={c.id}>{c.course}</option>
+                                                    ))}
+                                                </select>
+                                            </div>
+                                        }
                                         <hr className="divider" />
                                         <div className="row justify-content-center">
                                             <div className="col-md-6 text-center">

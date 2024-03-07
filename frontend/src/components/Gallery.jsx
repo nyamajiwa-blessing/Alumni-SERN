@@ -36,10 +36,10 @@ const Gallery = () => {
                         <div className="row">
                             {/* <div className="col-md-6"> */}
                             {gallery.map((g, index) => (
-                                <div className="col-md-6" key={index}>
+                                <div className="col-md-6 padzero" key={index}>
                                     <div className="card gallery-list"  >
-                                        <div className="gallery-im card-img-top">
-                                            <img src={`http://localhost:3000/${g.image_path}`} alt="img" />
+                                        <div className="">
+                                            <img src={`http://localhost:3000/${g.image_path}`} className='card-img-top img-fluid galleryimg' alt="img" />
                                         </div>
                                         <div className="card-body">
                                             <div className="row align-items-center justify-content-center text-center h-100">

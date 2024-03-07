@@ -57,7 +57,7 @@ const ManageUser = () => {
                     </div>
                     <div className="form-group">
                         <label htmlFor="password">Password</label>
-                        <input type="password" name="password" id="password" className="form-control" value={users.password} onChange={handleChange} autoComplete="off" />
+                        <input type="password" name="password" id="password" className="form-control"  onChange={handleChange} autoComplete="off" />
                         <small><i>Leave this if you dont want to change the password.</i></small>
                     </div>
                     <div className="form-group">

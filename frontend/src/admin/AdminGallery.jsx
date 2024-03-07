@@ -128,10 +128,11 @@ const AdminGallery = () => {
                       <td>
                         {shortenAboutText(g.about, 30)}
                       </td>
-                      <td className="text-center ">
+                      <td style={{verticalAlign:"middle"}} className="text-center ">
+                        <div className='d-flex  '>
                         <button onClick={() => handleEdit(g.image_path, g.about, g.id)} className="btn btn-sm btn-primary mr-2 edit_gallery" type="button">Edit</button>
                         <button onClick={() => handleDelete(g.id)} className="btn btn-sm btn-danger delete_gallery" type="button">Delete</button>
-                      </td>
+                        </div></td>
                     </tr>
                   ))}
                 </tbody>

@@ -1,12 +1,15 @@
 import React from 'react';
 import { FaEnvelope, FaPhone } from 'react-icons/fa';
 import { useTheme } from '../ThemeContext';
+import { GoVerified } from "react-icons/go";
+
 
 const Footer = () => {
   const { theme } = useTheme();
 
   const footerClasses = `py-5 bg-${theme} text-${theme === 'dark' ? 'white' : 'black'}`;
   const iconClasses = `fa-3x mb-3 text-${theme === 'dark' ? 'gray-500' : 'muted'}`;
+  const devfooter = "</> by ";
 
   return (
     <>
@@ -31,8 +34,17 @@ const Footer = () => {
         </div>
         <br />
         <div className="container">
-          <div className={`small text-center text-${theme === 'dark' ? 'gray-400' : 'muted'}`}>
+          {/* <div className={`small text-center text-${theme === 'dark' ? 'gray-400' : 'muted'}`}>
             Copyright © 2024 - Junaid Rana | <a href="https://junaidrana.vercel.app" target="_blank">Portfolio</a>
+          </div> */}
+          <div className={`small text-center text-${theme === 'dark' ? 'gray-400' : 'muted'}`}>
+            Copyright © 2024 - CS BZU |  {devfooter} <a
+              href="https://junaidrana.vercel.app/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              Junaid Rana<GoVerified style={{ fontSize: "12px", marginLeft: "2px", color:"#03b3ff" }} />
+            </a>
           </div>
         </div>
       </footer>

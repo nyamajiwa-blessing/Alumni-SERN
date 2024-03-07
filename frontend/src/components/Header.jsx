@@ -79,12 +79,12 @@ const Header = () => {
                             <li className="nav-item"><Link onClick={toggleMenu} className={`nav-link js-scroll-trigger ${isActive("/about")}`} to="/about">About</Link></li>
                             {isLoggedIn ? <></> : (<li className="nav-item"><Link onClick={toggleMenu} className={`nav-link js-scroll-trigger ${isActive("/login")}`} to="/login" id="login">Login</Link></li>)}
                             {isLoggedIn ? (<li className="nav-item dropdown">
-                                <Link className="nav-link " href="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <Link className="nav-link " role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     {name}<FaAngleDown />
                                 </Link>
                                 <ul className="dropdown-menu ">
                                     {isAdmin && <li><Link onClick={toggleMenu} className="dropdown-item " to="dashboard" ><MdDashboard /> Dashboard</Link></li>}
-                                    <li><Link onClick={toggleMenu} className="dropdown-item" to="account" ><FaCog /> Manage Account</Link></li>
+                                    {!isAdmin && <li><Link onClick={toggleMenu} className="dropdown-item" to="account" ><FaCog /> Manage Account</Link></li>}
                                     <li><hr className="dropdown-divider" /></li>
                                     <li><button className="dropdown-item" onClick={handleLogout}><FaPowerOff /> Logout</button></li>
                                 </ul>

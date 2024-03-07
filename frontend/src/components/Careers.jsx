@@ -100,30 +100,37 @@ const Careers = () => {
                                 </div>
                             </div>
                         </div>
-
-                        {/* $event = $conn->query("SELECT c.*,u.name from careers c inner join users u on u.id = c.user_id order by id desc"); */}
-                        {filteredJob.map((j, index) => (
-                            <div className="card job-list" key={index}>
-                                <div className="card-body">
-                                    <div className="row  align-items-center justify-content-center text-center h-100">
-                                        <div className="">
-                                            <h3><b className="filter-txt">{j.title}</b></h3>
-                                            <div>
-                                                <span className="filter-txt"><small><b><FaBuilding /> {j.company}</b></small></span>
-                                                <span className="filter-txt"><small><b><FaMapMarker />{j.location}</b></small></span>
+                        {filteredJob.length > 0 ? <>
+                            {/* $event = $conn->query("SELECT c.*,u.name from careers c inner join users u on u.id = c.user_id order by id desc"); */}
+                            {filteredJob.map((j, index) => (
+                                <div className="card job-list" key={index}>
+                                    <div className="card-body">
+                                        <div className="row  align-items-center justify-content-center text-center h-100">
+                                            <div className="">
+                                                <h3><b className="filter-txt">{j.title}</b></h3>
+                                                <div>
+                                                    <span className="filter-txt"><small><b><FaBuilding /> {j.company}</b></small></span>
+                                                    <span className="filter-txt"><small><b><FaMapMarker />{j.location}</b></small></span>
+                                                </div>
+                                                <hr />
+                                                <p dangerouslySetInnerHTML={{ __html: j.description }} className="truncate filter-txt" ></p>
+                                                <br />
+                                                <hr className="divider" style={{ maxWidth: "calc(80%)" }} />
+                                                <div className='jobbtn d-flex justify-content-between align-items-center '>
+                                                    <span className="badge badge-info ">
+                                                        <b><i>Posted by: {j.name}</i></b>
+                                                    </span>
+                                                    <button className="btn btn-sm  btn-primary " onClick={() => openModal(j)}>Read More</button>
+                                                </div>
                                             </div>
-                                            <hr />
-                                            <p dangerouslySetInnerHTML={{ __html: j.description }} className="truncate filter-txt" ></p>
-                                            <br />
-                                            <hr className="divider" style={{ maxWidth: "calc(80%)" }} />
-                                            <span className="badge badge-info float-left px-3 pt-1 pb-1">
-                                                <b><i>Posted by: {j.name}</i></b>
-                                            </span>
-                                            <button className="btn btn-primary float-right read_more" onClick={() => openModal(j)}>Read More</button>
                                         </div>
                                     </div>
-                                </div>
-                            </div>))}
+                                </div>))}</> : <>
+                            <div className="d-flex flex-column justify-content-center align-items-center">
+                                <p >{searchQuery}</p>
+                                <h4 className='text-info-emphasis'>No Job Available</h4>
+                            </div>
+                        </>}
                         <br />
                     </div></>)}
             {isModalOpen && (
