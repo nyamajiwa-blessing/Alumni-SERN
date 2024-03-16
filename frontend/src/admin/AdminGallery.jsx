@@ -57,7 +57,7 @@ const AdminGallery = () => {
       toast.error('An error occurred');
     }
   };
-  
+
   const shortenAboutText = (text, maxLength) => {
     if (text.length > maxLength) {
       return text.substring(0, maxLength) + '...';
@@ -74,7 +74,7 @@ const AdminGallery = () => {
     <div className="container-fluid">
       <ToastContainer position="top-center" />
       <div className="row">
-        <div className="col-md-4">
+        <div className="col-lg-4 col-md-12">
           <form onSubmit={handleSubmit} id="manage-gallery">
             <div className="card">
               <div className="card-header">
@@ -103,41 +103,43 @@ const AdminGallery = () => {
             </div>
           </form>
         </div>
-        <div className="col-md-8">
+        <div className="col-lg-8 col-md-12">
           <div className="card">
             <div className="card-header">
               <b>Gallery List</b>
             </div>
             <div className="card-body">
-              <table className="table table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th className="text-center">#</th>
-                    <th className="text-center">Image</th>
-                    <th className="text-center">About</th>
-                    <th className="text-center">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {gallery && gallery.map((g, index) => (
-                    <tr key={index}>
-                      <td className="text-center">{index + 1}</td>
-                      <td>
-                        <img src={`http://localhost:3000/${g.image_path}`} className="gimg" alt="img" />
-                      </td>
-                      <td>
-                        {shortenAboutText(g.about, 30)}
-                      </td>
-                      <td style={{verticalAlign:"middle"}} className="text-center ">
-                        <div className='d-flex  '>
-                        <button onClick={() => handleEdit(g.image_path, g.about, g.id)} className="btn btn-sm btn-primary mr-2 edit_gallery" type="button">Edit</button>
-                        <button onClick={() => handleDelete(g.id)} className="btn btn-sm btn-danger delete_gallery" type="button">Delete</button>
-                        </div></td>
+              <div className="table-responsive">
+                <table className="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th className="text-center">#</th>
+                      <th className="text-center">Image</th>
+                      <th className="text-center">About</th>
+                      <th className="text-center">Action</th>
                     </tr>
-                  ))}
-                </tbody>
+                  </thead>
+                  <tbody>
+                    {gallery && gallery.map((g, index) => (
+                      <tr key={index}>
+                        <td className="text-center">{index + 1}</td>
+                        <td>
+                          <img src={`http://localhost:3000/${g.image_path}`} className="gimg" alt="img" />
+                        </td>
+                        <td>
+                          {shortenAboutText(g.about, 30)}
+                        </td>
+                        <td style={{ verticalAlign: "middle" }} className="text-center ">
+                          <div className='d-flex  '>
+                            <button onClick={() => handleEdit(g.image_path, g.about, g.id)} className="btn btn-sm btn-primary mr-2 edit_gallery" type="button">Edit</button>
+                            <button onClick={() => handleDelete(g.id)} className="btn btn-sm btn-danger delete_gallery" type="button">Delete</button>
+                          </div></td>
+                      </tr>
+                    ))}
+                  </tbody>
 
-              </table>
+                </table>
+              </div>
             </div>
           </div>
         </div>

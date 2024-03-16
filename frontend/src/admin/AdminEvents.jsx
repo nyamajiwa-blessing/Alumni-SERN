@@ -62,39 +62,41 @@ const AdminEvents = () => {
                 </span>
               </div>
               <div className="card-body">
-                <table className="table table-condensed table-bordered table-hover">
-                  <thead>
-                    <tr>
-                      <th className="text-center">#</th>
-                      <th className="">Schedule</th>
-                      <th className="">Title</th>
-                      <th className="">Description</th>
-                      <th className="">Commited To Participate</th>
-                      <th className="text-center">Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {events.length > 0 ? <>
-                      {events.map((event, index) => (
-                        <tr key={index}>
-                          <td className="text-center">{index + 1}</td>
-                          <td>{formatDate(event.schedule)}</td>
-                          <td>{event.title}</td>
-                          <td>{CutContent(event.content, 50)}</td>
-                          <td>{event.commits_count}</td>
-                          <td className="text-center justify-content-center border-0 d-flex gap-1">
-                            <button onClick={() => handleView(event)} className="btn btn-sm btn-outline-primary edit_career" >View</button>
-                            <Link to="/dashboard/events/manage" state={{ status: "edit", data: event }} className="btn btn-sm btn-outline-primary" type="button">Edit</Link>
-                            <button onClick={() => delEvent(event.id)} className="btn btn-sm btn-outline-danger" type="button">Delete</button>
-                          </td>
-                        </tr>
-                      ))}</> : <>
+                <div className="table-responsive">
+                  <table className="table table-condensed table-bordered table-hover">
+                    <thead>
                       <tr>
-                        <td colSpan={6} className="text-center">No Event Available</td>
+                        <th className="text-center">#</th>
+                        <th className="">Schedule</th>
+                        <th className="">Title</th>
+                        <th className="">Description</th>
+                        <th className="">Commited To Participate</th>
+                        <th className="text-center">Action</th>
                       </tr>
-                    </>}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {events.length > 0 ? <>
+                        {events.map((event, index) => (
+                          <tr key={index}>
+                            <td className="text-center">{index + 1}</td>
+                            <td>{formatDate(event.schedule)}</td>
+                            <td>{event.title}</td>
+                            <td>{CutContent(event.content, 50)}</td>
+                            <td>{event.commits_count}</td>
+                            <td className="text-center justify-content-center border-0 d-flex gap-1">
+                              <button onClick={() => handleView(event)} className="btn btn-sm btn-outline-primary edit_career" >View</button>
+                              <Link to="/dashboard/events/manage" state={{ status: "edit", data: event }} className="btn btn-sm btn-outline-primary" type="button">Edit</Link>
+                              <button onClick={() => delEvent(event.id)} className="btn btn-sm btn-outline-danger" type="button">Delete</button>
+                            </td>
+                          </tr>
+                        ))}</> : <>
+                        <tr>
+                          <td colSpan={6} className="text-center">No Event Available</td>
+                        </tr>
+                      </>}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>

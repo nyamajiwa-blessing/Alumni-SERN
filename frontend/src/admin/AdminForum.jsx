@@ -68,56 +68,58 @@ const AdminForum = () => {
                   </span>
                 </div>
                 <div className="card-body">
+                  <div className="table-responsive">
 
-                  <table className="table table-bordered table-condensed table-hover">
-                    <colgroup>
-                      <col width="5%" />
-                      <col width="20%" />
-                      <col width="30%" />
-                      <col width="20%" />
-                      <col width="10%" />
-                      <col width="15%" />
-                    </colgroup>
-                    <thead>
-                      <tr>
-                        <th className="text-center">#</th>
-                        <th className="">Topic</th>
-                        <th className="">Description</th>
-                        <th className="">Created By</th>
-                        <th className="">Comments</th>
-                        <th className="text-center">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {forum.length > 0 ? <>
-                        {forum.map((e, index) => (
-                          <tr key={index}>
-                            <td className="text-center">{index + 1}</td>
-                            <td className="">
-                              <p><b> {e.title}</b></p>
-                            </td>
-                            <td className="">
-                              <p className="truncate"><b>{CutDesc(e.description, 50)}</b></p>
-
-                            </td>
-                            <td className="text-center">
-                              <p><b>{e.created_by}</b></p>
-                            </td>
-                            <td className="text-center">
-                              <p><b>{e.comments_count}</b></p>
-                            </td>
-                            <td className="text-center justify-content-center border-0 d-flex gap-1">
-                              <button onClick={() => handleView(e)} className="btn btn-sm btn-outline-primary edit_career" >View</button>
-                              <Link to="/dashboard/forum/manage" state={{ status: "edit", data: e }} className="btn btn-sm btn-outline-primary" type="button">Edit</Link>
-                              <button onClick={() => delForum(e.id)} className="btn btn-sm btn-outline-danger " type="button">Delete</button>
-                            </td>
-                          </tr>))}</> : <>
+                    <table className="table table-bordered table-condensed table-hover">
+                      <colgroup>
+                        <col width="5%" />
+                        <col width="20%" />
+                        <col width="30%" />
+                        <col width="20%" />
+                        <col width="10%" />
+                        <col width="15%" />
+                      </colgroup>
+                      <thead>
                         <tr>
-                          <td colSpan={6} className="text-center">No Forum Available</td>
+                          <th className="text-center">#</th>
+                          <th className="">Topic</th>
+                          <th className="">Description</th>
+                          <th className="">Created By</th>
+                          <th className="">Comments</th>
+                          <th className="text-center">Action</th>
                         </tr>
-                      </>}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {forum.length > 0 ? <>
+                          {forum.map((e, index) => (
+                            <tr key={index}>
+                              <td className="text-center">{index + 1}</td>
+                              <td className="">
+                                <p><b> {e.title}</b></p>
+                              </td>
+                              <td className="">
+                                <p className="truncate"><b>{CutDesc(e.description, 50)}</b></p>
+
+                              </td>
+                              <td className="text-center">
+                                <p><b>{e.created_by}</b></p>
+                              </td>
+                              <td className="text-center">
+                                <p><b>{e.comments_count}</b></p>
+                              </td>
+                              <td className="text-center justify-content-center border-0 d-flex gap-1">
+                                <button onClick={() => handleView(e)} className="btn btn-sm btn-outline-primary edit_career" >View</button>
+                                <Link to="/dashboard/forum/manage" state={{ status: "edit", data: e }} className="btn btn-sm btn-outline-primary" type="button">Edit</Link>
+                                <button onClick={() => delForum(e.id)} className="btn btn-sm btn-outline-danger " type="button">Delete</button>
+                              </td>
+                            </tr>))}</> : <>
+                          <tr>
+                            <td colSpan={6} className="text-center">No Forum Available</td>
+                          </tr>
+                        </>}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>

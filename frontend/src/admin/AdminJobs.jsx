@@ -68,37 +68,39 @@ const AdminJobs = () => {
                                     </span>
                                 </div>
                                 <div className="card-body">
-                                    <table className="table table-bordered table-condensed table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th className="text-center">#</th>
-                                                <th className="">Company</th>
-                                                <th className="">Job Title</th>
-                                                <th className="">Posted By</th>
-                                                <th className="text-center">Action</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {jobs.length > 0 ? <>
-                                                {jobs.map((job, index) => (
-                                                    <tr key={index}>
-                                                        <td className="text-center">{index + 1}</td>
-                                                        <td className=""><b>{job.company}</b></td>
-                                                        <td className=""><b>{job.job_title}</b></td>
-                                                        <td className=""><b>{job.name}</b></td>
-                                                        <td className="text-center justify-content-center border-0 d-flex gap-1">
-                                                            <button className="btn btn-sm btn-outline-primary view_career" type="button" onClick={() => openModal(job)}>View</button>
-                                                            <Link to="/dashboard/jobs/manage" state={{ action: "edit", data: job }} className="btn btn-sm btn-outline-primary edit_career" >Edit</Link>
-                                                            <button className="btn btn-sm btn-outline-danger delete_career" type="button" onClick={() => handleDelete(job.id)}>Delete</button>
-                                                        </td>
-                                                    </tr>
-                                                ))}</> : <>
+                                    <div className="table-responsive">
+                                        <table className="table table-bordered table-condensed table-hover">
+                                            <thead>
                                                 <tr>
-                                                    <td colSpan={6} className="text-center">No Job Available</td>
+                                                    <th className="text-center">#</th>
+                                                    <th className="">Company</th>
+                                                    <th className="">Job Title</th>
+                                                    <th className="">Posted By</th>
+                                                    <th className="text-center">Action</th>
                                                 </tr>
-                                            </>}
-                                        </tbody>
-                                    </table>
+                                            </thead>
+                                            <tbody>
+                                                {jobs.length > 0 ? <>
+                                                    {jobs.map((job, index) => (
+                                                        <tr key={index}>
+                                                            <td className="text-center">{index + 1}</td>
+                                                            <td className=""><b>{job.company}</b></td>
+                                                            <td className=""><b>{job.job_title}</b></td>
+                                                            <td className=""><b>{job.name}</b></td>
+                                                            <td className="text-center justify-content-center border-0 d-flex gap-1">
+                                                                <button className="btn btn-sm btn-outline-primary view_career" type="button" onClick={() => openModal(job)}>View</button>
+                                                                <Link to="/dashboard/jobs/manage" state={{ action: "edit", data: job }} className="btn btn-sm btn-outline-primary edit_career" >Edit</Link>
+                                                                <button className="btn btn-sm btn-outline-danger delete_career" type="button" onClick={() => handleDelete(job.id)}>Delete</button>
+                                                            </td>
+                                                        </tr>
+                                                    ))}</> : <>
+                                                    <tr>
+                                                        <td colSpan={6} className="text-center">No Job Available</td>
+                                                    </tr>
+                                                </>}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
