@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2024 at 08:53 AM
+-- Generation Time: Apr 14, 2024 at 11:42 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,7 +45,7 @@ CREATE TABLE `alumnus_bio` (
 --
 
 INSERT INTO `alumnus_bio` (`id`, `name`, `gender`, `batch`, `course_id`, `email`, `connected_to`, `avatar`, `status`, `date_created`) VALUES
-(1, 'Hello World', '', '0000', 1, 'alumnus@gmail.com', '', '', 0, '2024-03-07');
+(1, 'Meet Devin', 'male', '2022', 1, 'alumnus@gmail.com', 'Microsoft dev', 'Public\\Avatar\\image_1712981521646.jpg', 1, '2024-03-07');
 
 -- --------------------------------------------------------
 
@@ -68,8 +68,8 @@ CREATE TABLE `careers` (
 --
 
 INSERT INTO `careers` (`id`, `company`, `location`, `job_title`, `description`, `user_id`, `date_created`) VALUES
-(1, 'IT Company', 'Home-Based', 'Web Developer', '&lt;p style=&quot;-webkit-tap-highlight-color: rgba(0, 0, 0, 0); margin-top: 1.5em; margin-bottom: 1.5em; line-height: 1.5; animation: 1000ms linear 0s 1 normal none running fadeInLorem;&quot;&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sagittis eu volutpat odio facilisis mauris sit amet massa vitae. In tellus integer feugiat scelerisque varius morbi enim. Orci eu lobortis elementum nibh tellus molestie nunc. Vulputate ut pharetra sit amet aliquam id diam maecenas ultricies. Lacus sed viverra tellus in hac habitasse platea dictumst vestibulum. Eleifend donec pretium vulputate sapien nec. Enim praesent elementum facilisis leo vel fringilla est ullamcorper. Quam adipiscing vitae proin sagittis nisl rhoncus. Sed viverra ipsum nunc aliquet bibendum. Enim ut sem viverra aliquet eget sit amet tellus. Integer feugiat scelerisque varius morbi enim nunc faucibus.&lt;/p&gt;&lt;p style=&quot;-webkit-tap-highlight-color: rgba(0, 0, 0, 0); margin-top: 1.5em; margin-bottom: 1.5em; line-height: 1.5; animation: 1000ms linear 0s 1 normal none running fadeInLorem;&quot;&gt;Viverra justo nec ultrices dui. Leo vel orci porta non pulvinar neque laoreet. Id semper risus in hendrerit gravida rutrum quisque non tellus. Sit amet consectetur adipiscing elit ut. Id neque aliquam vestibulum morbi blandit cursus risus. Tristique senectus et netus et malesuada. Amet aliquam id diam maecenas ultricies mi eget mauris. Morbi tristique senectus et netus et malesuada. Diam phasellus vestibulum lorem sed risus. Tempor orci dapibus ultrices in. Mi sit amet mauris commodo quis imperdiet. Quisque sagittis purus sit amet volutpat. Vehicula ipsum a arcu cursus. Ornare quam viverra orci sagittis eu volutpat odio facilisis. Id volutpat lacus laoreet non curabitur. Cursus euismod quis viverra nibh cras pulvinar mattis nunc. Id aliquet lectus proin nibh nisl condimentum id venenatis. Eget nulla facilisi etiam dignissim diam quis enim lobortis. Lacus suspendisse faucibus interdum posuere lorem ipsum dolor sit amet.&lt;/p&gt;', 1, '2020-10-15 14:14:27'),
-(2, 'Sample Company', 'ORIC, BZU', 'IT Specialist', '<p><strong><em>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </em></strong><u>Sagittis eu volutpat odio facilisis mauris sit </u><em>amet massa vitae. In tellus integer feugiat scelerisque varius morbi enim. Orci eu lobortis elementum nibh tellus molestie nunc. Vulputate ut pharetra sit amet aliquam id diam maecenas ultricies. Lacus sed viverra tellus in hac habitasse platea dictumst vestibulum. Eleifend donec pretium vulputate sapien nec. Enim praesent elementum facilisis leo vel fringilla est ullamcorper. Quam adipiscing vitae proin sagittis nisl rhoncus. Sed viverra ipsum nunc aliquet bibendum. Enim ut sem viverra aliquet eget sit amet tellus. Integer feugiat scelerisque varius morbi enim nunc faucibus.</em>&lt;/p&gt;&lt;p style=\"margin-top: 1.5em; margin-bottom: 1.5em; margin-right: unset; margin-left: unset; color: rgb(68, 68, 68); font-family: &amp;quot;Open Sans&amp;quot;, sans-serif; font-size: 16px; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); line-height: 1.5; animation: 1000ms linear 0s 1 normal none running fadeInLorem;\"&gt;Viverra justo nec ultrices dui. Leo vel orci porta non pulvinar neque laoreet. Id semper risus in hendrerit gravida rutrum quisque non tellus. Sit amet consectetur adipiscing elit ut. Id neque aliquam vestibulum morbi blandit cursus risus. Tristique senectus et netus et malesuada. Amet aliquam id diam maecenas ultricies mi eget mauris. Morbi tristique senectus et netus et malesuada. Diam phasellus vestibulum lorem sed risus. Tempor orci dapibus ultrices in. Mi sit amet mauris commodo quis imperdiet. Quisque sagittis purus sit amet volutpat. Vehicula ipsum a arcu cursus. Ornare quam viverra orci sagittis eu volutpat odio facilisis. Id volutpat lacus laoreet non curabitur. Cursus euismod quis viv</p><ol><li>erra nibh cras pulvinar mattis nunc. Id aliquet lectus proin nibh nisl condimentum id venenatis. Eget nulla facilisi etiam dignissim</li></ol><ul><li>diam quis enim lobortis. Lacus suspendisse faucibus interdum posuere lorem ipsum dolor sit amet.&lt;/p&gt;</li></ul>', 1, '2020-10-15 15:05:37');
+(1, 'IT Company', 'Remote', 'Web Developer', '<p><strong><u>Lorem ipsum</u></strong> dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p><ol><li><em> Sagittis eu volutpat odio facilisis mauris sit amet massa vitae.</em> In tellus integer feugiat scelerisque varius morbi enim. Orci eu lobortis elementum nibh tellus molestie nunc. Vulputate ut pharetra sit amet aliquam id diam maecenas ultricies. Lacus sed viverra tellus in hac habitasse platea dictumst vestibulum. Eleifend donec pretium vulputate sapien nec. Enim praesent elementum facilisis leo vel fringilla est ullamcorper. Quam adipiscing vitae proin sagittis nisl rhoncus. Sed viverra ipsum nunc aliquet bibendum. Enim ut sem viverra aliquet eget sit amet tellus. Integer feugiat scelerisque varius morbi enim nunc faucibus.</li><li><em>Viverra justo nec ultrices dui. L</em>eo vel orci porta non pulvinar neque laoreet. Id semper risus in hendrerit gravida rutrum quisque non tellus. Sit amet consectetur adipiscing elit ut. Id neque aliquam vestibulum morbi blandit cursus risus. Tristique senectus et netus et malesuada.</li><li> <em>Amet aliquam id diam maecenas ultricies mi eget mauris. </em>Morbi tristique senectus et netus et malesuada. Diam phasellus vestibulum lorem sed risus. Tempor orci dapibus ultrices in. Mi sit amet mauris commodo quis imperdiet. Quisque sagittis purus sit amet volutpat. Vehicula ipsum a arcu cursus. Ornare quam viverra orci sagittis eu volutpat odio facilisis. Id volutpat lacus laoreet non curabitur. Cursus euismod quis viverra nibh cras pulvinar mattis nunc. Id aliquet lectus proin nibh nisl condimentum id venenatis. Eget nulla facilisi etiam dignissim diam quis enim lobortis. Lacus suspendisse faucibus interdum posuere lorem ipsum dolor sit amet.</li></ol>', 1, '2020-10-15 14:14:27'),
+(2, 'Rana IT Company', 'ORIC, BZU', 'IT Specialist', '<p><strong><em> dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </em></strong><u>Sagittis eu volutpat odio facilisis mauris sit </u><em>amet massa vitae. In tellus integer feugiat scelerisque varius morbi enim. Orci eu lobortis elementum nibh tellus molestie nunc. Vulputate ut pharetra sit amet aliquam id diam maecenas ultricies. Lacus sed viverra tellus in hac habitasse platea dictumst vestibulum. Eleifend donec pretium vulputate sapien nec. Enim praesent elementum facilisis leo vel fringilla est ullamcorper. Quam adipiscing vitae proin sagittis nisl rhoncus. Sed viverra ipsum nunc aliquet bibendum. Enim ut sem viverra aliquet eget sit amet tellus. Integer feugiat scelerisque varius morbi enim nunc faucibus.</em></p><p>Viverra justo nec ultrices dui. Leo vel orci porta non pulvinar neque laoreet. Id semper risus in hendrerit gravida rutrum quisque non tellus. Sit amet consectetur adipiscing elit ut. Id neque aliquam vestibulum morbi blandit cursus risus. Tristique senectus et netus et malesuada. Amet aliquam id diam maecenas ultricies mi eget mauris. Morbi tristique senectus et netus et malesuada. Diam phasellus vestibulum lorem sed risus. Tempor orci dapibus ultrices in. Mi sit amet mauris commodo quis imperdiet. Quisque sagittis purus sit amet volutpat. Vehicula ipsum a arcu cursus. Ornare quam viverra orci sagittis eu volutpat odio facilisis. Id volutpat lacus laoreet non curabitur. Cursus euismod quis viv</p><ol><li>erra nibh cras pulvinar mattis nunc. Id aliquet lectus proin nibh nisl condimentum id venenatis. Eget nulla facilisi etiam dignissim</li></ol><ul><li>diam quis enim lobortis. Lacus suspendisse faucibus interdum p<em>osuere lorem ipsum dolor sit amet.</em></li></ul>', 1, '2020-10-15 15:05:37');
 
 -- --------------------------------------------------------
 
@@ -88,7 +88,8 @@ CREATE TABLE `courses` (
 --
 
 INSERT INTO `courses` (`id`, `course`, `about`) VALUES
-(1, 'MCS', '');
+(1, 'BSC', ''),
+(6, 'MCS', '');
 
 -- --------------------------------------------------------
 
@@ -131,7 +132,8 @@ CREATE TABLE `event_commits` (
 --
 
 INSERT INTO `event_commits` (`id`, `event_id`, `user_id`) VALUES
-(12, 1, 2);
+(12, 1, 2),
+(13, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -152,7 +154,8 @@ CREATE TABLE `forum_comments` (
 --
 
 INSERT INTO `forum_comments` (`id`, `topic_id`, `comment`, `user_id`, `date_created`) VALUES
-(27, 4, 'wow great', 2, '2024-03-07 12:51:48');
+(27, 4, 'wow great... Hello world bro edited', 2, '2024-03-07 12:51:48'),
+(28, 4, 'thats cool', 1, '2024-03-14 15:58:08');
 
 -- --------------------------------------------------------
 
@@ -174,7 +177,7 @@ CREATE TABLE `forum_topics` (
 
 INSERT INTO `forum_topics` (`id`, `title`, `description`, `user_id`, `date_created`) VALUES
 (4, 'Lorem Ipsum Topic', '<h2><strong>Lorem Ipsum</strong></h2><p><strong><em>is simply dummy text of the printing and typesetting industry.</em></strong> <strong><em><u>Lorem Ipsum has been the industry’</u></em></strong>s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/span&gt;</p>', 1, '2020-10-16 08:31:45'),
-(7, 'Hello World', '<p><em><u>World</u></em> is so<strong><em> dangerouse of ai</em></strong></p>', 2, '2024-03-03 08:35:04');
+(7, 'AI Software Engineer ', '<h2><strong><em>AI </em></strong><em>World is so</em><strong><em> </em></strong><em>dangerous</em><strong><em>.</em></strong></h2><p><span style=\"color: rgb(85, 85, 85);\">XAMPP is meant only for development purposes. It has certain configuration settings that make it easy to develop locally but that are insecure if you want to have your installation accessible to others.</span></p><ol><li><span style=\"color: rgb(85, 85, 85);\">You have successfully installed XAMPP on this system! Now you can start using Apache, MariaDB, PHP and other components. You can find more info in the&nbsp;</span><a href=\"http://localhost/dashboard/faq.html\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(94, 137, 73); background-color: rgb(255, 255, 255);\">FAQs</a><span style=\"color: rgb(85, 85, 85);\">&nbsp;section or check the&nbsp;</span><a href=\"http://localhost/dashboard/howto.html\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(94, 137, 73); background-color: rgb(255, 255, 255);\">HOW-TO Guides</a><span style=\"color: rgb(85, 85, 85);\">&nbsp;for getting started with PHP applications.</span></li><li><span style=\"color: rgb(85, 85, 85);\">Start the XAMPP Control Panel to check the server status.</span></li><li><span style=\"color: rgb(85, 85, 85);\">XAMPP has been around for more than 10 years – there is a huge community behind it. You can get involved by joining our&nbsp;</span><a href=\"https://community.apachefriends.org/\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(94, 137, 73); background-color: rgb(255, 255, 255);\">Forums</a><span style=\"color: rgb(85, 85, 85);\">, liking us on&nbsp;</span><a href=\"https://www.facebook.com/we.are.xampp\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(94, 137, 73); background-color: rgb(255, 255, 255);\">Facebook</a><span style=\"color: rgb(85, 85, 85);\">, or following our exploits on&nbsp;</span><a href=\"https://twitter.com/apachefriends\" rel=\"noopener noreferrer\" target=\"_blank\" style=\"color: rgb(94, 137, 73); background-color: rgb(255, 255, 255);\">Twitter</a><span style=\"color: rgb(85, 85, 85);\">.</span></li></ol>', 2, '2024-03-03 08:35:04');
 
 -- --------------------------------------------------------
 
@@ -243,7 +246,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `type`, `auto_generated_pass`, `alumnus_id`) VALUES
 (1, 'Junaid Rana', 'admin@gmail.com', '$2b$10$T3AaDtVF15J2PvFAEOrKge0b6/gWShoQnqoN0gz8MLkyQSUJHqyIC', 'admin', '', 0),
-(2, 'Hello World', 'alumnus@gmail.com', '$2b$10$/YmBd3StQGrUe3y/jNcLGOvHdlY4InzK.fvubq7YoWBLKCrsOmewa', 'alumnus', '', 1);
+(2, 'Meet Devin', 'alumnus@gmail.com', '$2b$10$KP.4g9uiF9kvTQGgRUhym.d7G8CANbljBJVNs9syiaGBT.tllzS3m', 'alumnus', '', 1);
 
 --
 -- Indexes for dumped tables
@@ -329,7 +332,7 @@ ALTER TABLE `careers`
 -- AUTO_INCREMENT for table `courses`
 --
 ALTER TABLE `courses`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `events`
@@ -341,13 +344,13 @@ ALTER TABLE `events`
 -- AUTO_INCREMENT for table `event_commits`
 --
 ALTER TABLE `event_commits`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `forum_comments`
 --
 ALTER TABLE `forum_comments`
-  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(30) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `forum_topics`

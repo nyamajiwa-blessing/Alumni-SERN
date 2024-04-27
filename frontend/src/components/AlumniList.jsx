@@ -12,6 +12,7 @@ const AlumniList = () => {
     useEffect(() => {
         axios.get("http://localhost:3000/auth/alumni_list")
             .then((res) => {
+
                 console.log(res.data);
                 setAlumniList(res.data);
             })
@@ -47,7 +48,7 @@ const AlumniList = () => {
                     </div>
                 </div>
             </header>
-            {alumniList.length && <div className="container mt-4">
+            {alumniList.length > 0 && <div className="container mt-4">
                 <div className="card mb-4">
                     <div className="card-body">
                         <div className="row">

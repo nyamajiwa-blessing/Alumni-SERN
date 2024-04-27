@@ -67,8 +67,9 @@ const Home = () => {
                         <div className="col-lg-8  text-center">
                             <h1 className="text-white font-weight-bold display-3 mb-4">Welcome to BZU ALUMNI</h1>
                             <p className="text-white-75 font-weight-light lead mb-5">Connecting CS alumni across the globe</p>
-                            <Link className="btn btn-primary btn-xl" to="about">Find Out More</Link>
+                            {!isAdmin && <Link className="btn btn-primary btn-xl" to="about">Find Out More</Link>}
                             {!isLoggedIn && <Link className="btn btn-info  ms-2   btn-xl" to="login">Login</Link>}
+                            {isLoggedIn && isAdmin && <Link className="btn btn-primary btn-xl" to="dashboard">Admin Dashboard</Link>}
                             {isLoggedIn && !isAdmin && <Link className="btn btn-info  ms-2   btn-xl" to="account">Profile</Link>}
                         </div>
                     </div>
